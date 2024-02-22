@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 
 var userDetails = new UserDetails();
 // test.describe.configure({ mode: 'serial' });
-test.only('Purchase a product as a guest', async ({ page }) => {
+test('Purchase a product as a guest', async ({ page }) => {
     let app = new App(page)
     let productInfo: ProductInfo
 
@@ -43,7 +43,7 @@ test.only('Purchase a product as a guest', async ({ page }) => {
 
 })
 
-test('Search and purchase a product as logged-in user', async ({ page, userLogin }) => {
+test.skip('Search and purchase a product as logged-in user', async ({ page, userLogin }) => {
     let app = new App(page)
     let product:ProductInfo
     console.log('Login 1')
@@ -69,7 +69,7 @@ test('Search and purchase a product as logged-in user', async ({ page, userLogin
     await app.shoppingPage.validateProductShoppingCart(product)
 })
 
-test('Should add item to cart', async ({ page }) => {
+test.skip('Should add item to cart', async ({ page }) => {
     const Url = 'https://ecommerce-playground.lambdatest.io/index.php/';
     await page.goto(Url);
     const response = await page.request.post(Url, {
@@ -86,7 +86,7 @@ test('Should add item to cart', async ({ page }) => {
     await expect(page.locator("div[class$='flex-nowrap'] > input")).toHaveValue("1")
 })
 
-test('Remove item in cart', async ({ page, userLogin }) => {
+test.skip('Remove item in cart', async ({ page, userLogin }) => {
     let app = new App(page)
     await app.loginPage.loginWithAPI(userLogin.USERNAME, userLogin.PASSWORD)
     await page.reload()
