@@ -18,7 +18,7 @@ test.beforeEach(async ({ page }) => {
 
 var userDetails = new UserDetails();
 // test.describe.configure({ mode: 'serial' });
-test('Purchase a product as a guest', async ({ page }) => {
+test.only('Purchase a product as a guest', async ({ page }) => {
     let app = new App(page)
     let productInfo: ProductInfo
 

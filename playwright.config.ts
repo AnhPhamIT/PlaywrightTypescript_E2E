@@ -30,14 +30,14 @@ export default defineConfig<TestOptions>({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
-      ["junit", { outputFile: "results.xml" }],
+      // ["junit", { outputFile: "results.xml" }],
       ["html", { open: "never" }],
     ]
     : [["html", { open: "on-failure" }]],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: webConfig[environmentVar].WEBAPP,
+    baseURL: process.env.BASE_URL || webConfig[environmentVar].WEBAPP,
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
@@ -61,13 +61,13 @@ export default defineConfig<TestOptions>({
       // fullyParallel: true,
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox'],
-        userLogin: webConfig[environmentVar].UserLOGIN[1],
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox'],
+    //     userLogin: webConfig[environmentVar].UserLOGIN[1],
+    //   },
+    // },
 
     // {
     //   name: 'webkit',

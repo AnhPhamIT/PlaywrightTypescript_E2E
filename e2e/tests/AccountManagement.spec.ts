@@ -19,7 +19,7 @@ test('Manage account', async({page, userLogin})=>{
 
 })
 
-test('Login with API', async({page, userLogin})=>{
+test.only('Login with API', async({page, userLogin})=>{
     let app = new App(page)
     const response = await app.loginPage.loginWithAPI(userLogin.USERNAME, userLogin.PASSWORD)
     expect(response.status()).toBe(200)
