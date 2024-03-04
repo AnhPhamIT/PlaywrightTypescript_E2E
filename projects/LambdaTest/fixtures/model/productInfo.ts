@@ -3,7 +3,7 @@ export default class ProductInfo{
     public price:any
     public quantity:number
 
-    constructor(name:any, price:any, quantity:number ){
+    constructor(name:any, price:any, quantity:number, size?:any ){
         this.name = name
         this.price = price
         this.quantity = quantity

@@ -1,6 +1,9 @@
+
 import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
-import { TestOptions } from './e2e/fixtures/model/credentials';
+import { resolve } from 'path';
+import { TestOptions } from './projects/type';
+
 
 /**
  * Read environment variables from file.
@@ -11,12 +14,18 @@ import { TestOptions } from './e2e/fixtures/model/credentials';
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
-const environmentVar = (process.env.TEST_ENVIRONMENT === undefined) ? 'qa' : process.env.TEST_ENVIRONMENT
-const { webConfig } = require(`./e2e/constants/webConfig`)
+
+// if(process.env.ENVIRONMENT==='DEV'){
+//   // require('dotenv').config({'./'});
+// }
 // Read from default ".env" file.
 dotenv.config();
+const environmentVar = (process.env.TEST_ENVIRONMENT === undefined) ? '' : process.env.TEST_ENVIRONMENT
+const projectVar = process.env.PROJECT
+const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
+
 export default defineConfig<TestOptions>({
-  testDir: './e2e/tests',
+  testDir: resolve(__dirname, `projects/${projectVar}/tests`),
   // Folder for test artifacts such as screenshots, videos, traces, etc.
   outputDir: 'test-results',
   /* Run tests in files in parallel */
@@ -37,8 +46,9 @@ export default defineConfig<TestOptions>({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: process.env.BASE_URL || webConfig[environmentVar].WEBAPP,
-
+    baseURL: process.env.BASE_URL || WEB_CONFIG[environmentVar].WEBAPP,
+    apiURL: process.env.API_URL || WEB_CONFIG[environmentVar].API_URL,
+    
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
   },
@@ -55,7 +65,7 @@ export default defineConfig<TestOptions>({
         launchOptions: {
           args: ["--start-maximized"]
         },
-        userLogin: webConfig[environmentVar].UserLOGIN[0]
+        userLogin: WEB_CONFIG[environmentVar].UserLOGIN[0]
       },
 
       // fullyParallel: true,

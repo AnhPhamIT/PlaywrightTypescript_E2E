@@ -9,6 +9,8 @@ import { TopBar } from "./components/topbar.components";
 import { Search } from "./search.page";
 import { ShoppingCart } from "./components/shoppingCart.components";
 import { LogOut } from "./logout.page";
+import { Register } from "./register.page";
+import { AccountAPI } from "../support/api/account";
 
 export class App {
     private readonly _base : BasePage
@@ -21,8 +23,10 @@ export class App {
     private readonly _search:Search
     private readonly _shoppingCart:ShoppingCart
     private readonly _logout:LogOut
+    private readonly _register: Register
+    private readonly _accountAPI:AccountAPI
 
-    constructor(page:Page){
+    constructor(page:Page, apiURL?:any){
         this._base = new BasePage(page)
         this._checkout = new Checkout(page)
         this._confirmOrder = new ConfirmOrder(page)
@@ -33,6 +37,8 @@ export class App {
         this._search = new Search(page)
         this._shoppingCart = new ShoppingCart(page)
         this._logout = new LogOut(page)
+        this._register = new Register(page)
+        this._accountAPI = new AccountAPI(page, apiURL)
     }
 
     public get homePage():Home{
@@ -71,5 +77,13 @@ export class App {
 
     public get logoutPage():LogOut{
         return this._logout
+    }
+
+    public get registerPage():Register{
+        return this._register
+    }
+
+    public get accountAPI():AccountAPI{
+        return this._accountAPI
     }
 }

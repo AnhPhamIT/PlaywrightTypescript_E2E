@@ -1,9 +1,12 @@
 import {faker} from '@faker-js/faker'
 export default class UserDetails {
+    //--- Personal Details
     public firstName: any
     public lastName: any
     public email:any
     public phoneNumber: any
+    public password:any
+    //--- Billing Address
     public company: any
     public address01: any
     public address02: any
@@ -11,6 +14,7 @@ export default class UserDetails {
     public postcode: any
     public country: any
     public zone: any
+    
 
     constructor(){
         this.firstName = faker.person.firstName()
@@ -24,5 +28,6 @@ export default class UserDetails {
         this.postcode = faker.location.zipCode()
         this.country = 'Australia'
         this.zone = 'Tasmania'
+        this.password ="password"
     }
 }

@@ -9,9 +9,11 @@ export class TopBar extends BasePage{
     get search_input(){return this.page.locator('div#main-header input[name="search"]')}
     get search_btn(){return this.page.locator('div#main-header button[type="submit"]')}
     get cart_btn(){return this.page.locator('.cart-icon').first()}
+    get searchResults(){return this.page.locator('li.product-thumb')}
 
     async goToHomePage(){
         await this.page.locator('figure a[title="Poco Electro"]').click()
+        await expect(this.page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=common/home')
     }
 
     async selectMainMenu(menu:any, subMenu:string){
@@ -21,8 +23,9 @@ export class TopBar extends BasePage{
         // await expect(this.page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=account/login')
         await this.page.waitForLoadState('domcontentloaded')
     }
-    async searchItem(name:string){
+    async searchProductByName(name:string){
         await this.search_input.fill(name)
+        // await this.searchResults.nth(1).click()
         await this.search_btn.click()
     }
 
