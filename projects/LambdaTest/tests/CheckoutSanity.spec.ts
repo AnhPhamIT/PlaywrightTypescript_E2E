@@ -55,8 +55,9 @@ test('Should able to checkout product as returning user', async ({ page, apiURL 
         productInfo = await app.productDetailsPage.inputOrderDetails(2)
         await app.productDetailsPage.selectBuyNow()
     })
-    await test.step('On checkout page, validate product information', async () => {
+    await test.step('On cart, validate product information', async () => {
         await app.checkoutPage.validateCheckoutItem(productInfo)
+        // await app.cart.validateShoppingCart(productInfo)
     })
     await test.step('Fill in customer information', async () => {
         await app.checkoutPage.agreeAndContinueCheckout(userDetails)

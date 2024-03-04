@@ -1,6 +1,7 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
 import ProductInfo from "../fixtures/model/productInfo";
+import CommonUtils from "../support/util/commonUtils";
 
 export class Search extends BasePage {
     constructor(page: Page) {
@@ -12,7 +13,9 @@ export class Search extends BasePage {
         const selectedProduct = this.productItem.nth(index)
         //get product info
         let name = await selectedProduct.locator('h4').textContent()
-        let price = await selectedProduct.locator('span.price-new').textContent()
+        let price = await selectedProduct.locator('span.price-new').textContent().then(p=>{
+            return CommonUtils.convertCurrencyToNumber(p)
+        })
         await selectedProduct.hover()
         await Promise.all([
             await selectedProduct.locator('button[title="Add to Cart"]').click(),

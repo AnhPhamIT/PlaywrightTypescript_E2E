@@ -26,10 +26,7 @@ Sometimes it is helpful to run e2e test suite againts your balanced server local
 PROJECT=LambdaTest
 TEST_ENVIRONMENT=QA
 ```
-
-2. Open file `urls.ts` and update `demo1.website` with `https://www.demoblaze.com/index.html`
-
-3. Run command
+2. Run command
 
 ```
 npx playwright test --trace on --workers 1

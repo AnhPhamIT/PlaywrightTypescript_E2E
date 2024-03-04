@@ -11,6 +11,7 @@ import { ShoppingCart } from "./components/shoppingCart.components";
 import { LogOut } from "./logout.page";
 import { Register } from "./register.page";
 import { AccountAPI } from "../support/api/account";
+import { Cart } from "./cart.page";
 
 export class App {
     private readonly _base : BasePage
@@ -24,6 +25,7 @@ export class App {
     private readonly _shoppingCart:ShoppingCart
     private readonly _logout:LogOut
     private readonly _register: Register
+    private readonly _cart:Cart
     private readonly _accountAPI:AccountAPI
 
     constructor(page:Page, apiURL?:any){
@@ -38,6 +40,7 @@ export class App {
         this._shoppingCart = new ShoppingCart(page)
         this._logout = new LogOut(page)
         this._register = new Register(page)
+        this._cart = new Cart(page)
         this._accountAPI = new AccountAPI(page, apiURL)
     }
 
@@ -85,5 +88,9 @@ export class App {
 
     public get accountAPI():AccountAPI{
         return this._accountAPI
+    }
+
+    public get cart():Cart{
+        return this._cart
     }
 }

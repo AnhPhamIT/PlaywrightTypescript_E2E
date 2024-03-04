@@ -39,8 +39,7 @@ export class Checkout extends BasePage {
         const unitPrice = await productRow.locator('td').nth(3).textContent()
         expect(unitPrice).toContain(productInfo.price.toString())
         let quantityPrice = await productRow.locator('td').nth(4).textContent()
-        // let priceNumber = CommonUtils.convertCurrencyToNumber(productInfo.price)
-        let calPrice = Number(productInfo.price * productInfo.quantity)
+        let calPrice = productInfo.price * productInfo.quantity
         expect(quantityPrice).toContain(calPrice.toString())
     }
 
