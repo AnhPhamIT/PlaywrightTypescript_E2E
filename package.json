@@ -1,5 +1,5 @@
 {
-  "name": "second_playwright",
+  "name": "playwright_multiprojects",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -15,6 +15,6 @@
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.41.2",
     "@types/node": "^20.11.7",
-    "dotenv": "^16.4.4"
+    "dotenv": "^16.4.5"
   }
 }

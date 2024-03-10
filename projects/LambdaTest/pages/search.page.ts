@@ -16,6 +16,7 @@ export class Search extends BasePage {
         let price = await selectedProduct.locator('span.price-new').textContent().then(p=>{
             return CommonUtils.convertCurrencyToNumber(p)
         })
+        await selectedProduct.hover({trial:true})
         await selectedProduct.hover()
         await Promise.all([
             await selectedProduct.locator('button[title="Add to Cart"]').click(),
@@ -27,9 +28,12 @@ export class Search extends BasePage {
     }
 
     async validateProductImageByIndex(index: number) {
+        // await this.page.evaluate(() => window.scrollTo(0, document.body.scrollHeight))
+        
         const productImg = this.productItem.locator('div.carousel-item.active img').nth(index)
+        await productImg.scrollIntoViewIfNeeded();
         await productImg.waitFor()
-        await expect.soft(productImg).toHaveScreenshot({ maxDiffPixelRatio: 0.2 })
+        await expect(productImg).toHaveScreenshot({ maxDiffPixelRatio: 0.2 })
     }
 
 }

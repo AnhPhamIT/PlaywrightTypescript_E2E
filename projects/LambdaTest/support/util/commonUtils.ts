@@ -7,8 +7,8 @@ export default class CommonUtils {
     static convertCurrencyToNumber(value:any){
         return Number(value.replace(/[^0-9.-]+/g,""));
     }
-    static randomIndex(n){
-        return Math.floor(Math.random() * n);
+    static randomIndex(arrLength:number){
+        return Math.floor(Math.random() * arrLength);
     }
 
 }

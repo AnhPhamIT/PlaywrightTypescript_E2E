@@ -11,7 +11,7 @@ export const WEB_CONFIG = {
 
     },
     PREPROD: {
-        WEBAPP: 'https://www.demoblaze.com/',
-        API_URL: 'https://www.demoblaze.com/index.php/',
+        WEBAPP: 'https://ecommerce-playground.lambdatest.preprod.io/',
+        API_URL: 'https://ecommerce-playground.lambdatest.preprod.io/index.php/',
     }
 }

@@ -1,7 +1,7 @@
-import { App } from "../pages/app";
-import { test } from '../fixtures/customConfig'
-import ProductInfo from "../fixtures/model/productInfo";
-import UserDetails from "../fixtures/model/userDetails";
+import { App } from "../pages/app"
+import { test } from '../fixtures/testOptions'
+import ProductInfo from "../fixtures/model/productInfo"
+import UserDetails from "../fixtures/model/userDetails"
 
 test.beforeEach(async ({ page }) => {
     let app = new App(page)
@@ -71,11 +71,14 @@ test('Should able to checkout product as returning user', async ({ page, apiURL 
 test('@only Should able to search then checkout a product', async({page, userLogin, apiURL})=>{
     let app = new App(page, apiURL)
     let productInfo: ProductInfo
+    
+    await page.setViewportSize({ width: 1600, height: 850 });
     // await app.accountAPI.login(userLogin.USERNAME, userLogin.PASSWORD)
     await app.topbarPage.searchProductByName('Nikon D300')
     await app.searchPage.validateProductImageByIndex(1)
     productInfo =await app.searchPage.addProductToCartByIndex(1)
     await app.basePage.selectActionOnNotification('Checkout')
+    // await app.checkoutPage.validateCheckoutItem(new ProductInfo("Nikon D300",98,1))
     await app.checkoutPage.validateCheckoutItem(productInfo)
     
 })

@@ -11,10 +11,8 @@ export class BasePage {
     get resultContinue_btn() { return this.page.locator('#common-success a.btn') }
     get resultTitle() { return this.page.locator('h1.page-title') }
     get notificationBox() { return this.page.locator('#notification-box-top') }
-    // get viewCart() { return this.page.locator('//a[contains(.,"View Cart")]') }
-    // get checkOut() { return this.page.locator('//a[contains(.,"Checkout")]') }
+
     actionOnNotification(action: string) {
-        //Checkout or View Cart
         return this.page.locator('//a[contains(.,"' + action + '")]')
     }
     get toastMsg() { return this.page.locator("div.toast-body") }

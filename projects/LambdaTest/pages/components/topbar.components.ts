@@ -20,12 +20,10 @@ export class TopBar extends BasePage{
         const menuItem = this.main_menu.locator('span:has-text("'+menu+'")')
         await menuItem.hover()
         await this.main_menu.locator('span:has-text("'+subMenu+'")').click({delay:500,force:true})
-        // await expect(this.page).toHaveURL('https://ecommerce-playground.lambdatest.io/index.php?route=account/login')
         await this.page.waitForLoadState('domcontentloaded')
     }
     async searchProductByName(name:string){
         await this.search_input.fill(name)
-        // await this.searchResults.nth(1).click()
         await this.search_btn.click()
     }
 

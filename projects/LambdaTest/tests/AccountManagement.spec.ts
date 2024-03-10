@@ -1,6 +1,6 @@
 import { App } from "../pages/app"
 import {expect} from '@playwright/test'
-import { test } from "../fixtures/customConfig"
+import { test } from "../fixtures/testOptions"
 
 
 test.beforeEach(async({page})=>{

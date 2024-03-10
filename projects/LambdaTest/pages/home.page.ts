@@ -6,12 +6,8 @@ export class Home extends BasePage{
         super(page)
     }
 
-    // define elements
     get collectionProducts() {return this.page.locator('div.mz-tab-listing:has-text("Top Collection")')}
 
-    // async selectFirstProduct(){
-    //     await this.collectionProducts.locator('div.product-thumb').first().click()
-    // }
     async viewCollectionProductByIndex(index: number){
         const productItem = this.collectionProducts.locator('div.product-thumb')
         await productItem.nth(index).waitFor({state:'visible'})

@@ -1,16 +1,15 @@
 
-import { defineConfig, devices } from '@playwright/test';
-import dotenv from 'dotenv';
-import { resolve } from 'path';
-import { TestOptions } from './projects/type';
+import { defineConfig, devices } from '@playwright/test'
+import dotenv from 'dotenv'
+import { resolve } from 'path'
+import { TestOptions } from './projects/type'
 
 
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
-// require('dotenv').config();
-
+dotenv.config()
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -19,10 +18,10 @@ import { TestOptions } from './projects/type';
 //   // require('dotenv').config({'./'});
 // }
 // Read from default ".env" file.
-dotenv.config();
+
 const environmentVar = (process.env.TEST_ENVIRONMENT === undefined) ? '' : process.env.TEST_ENVIRONMENT
 const projectVar = process.env.PROJECT
-const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
+const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`)
 
 export default defineConfig<TestOptions>({
   testDir: resolve(__dirname, `projects/${projectVar}/tests`),
@@ -42,15 +41,22 @@ export default defineConfig<TestOptions>({
       // ["junit", { outputFile: "results.xml" }],
       ["html", { open: "never" }],
     ]
-    : [["html", { open: "on-failure" }]],
+    : [
+      ["html", { open: "on-failure" }],
+      ["junit", { outputFile: "results.xml" }]
+    ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: process.env.BASE_URL || WEB_CONFIG[environmentVar].WEBAPP,
     apiURL: process.env.API_URL || WEB_CONFIG[environmentVar].API_URL,
-    
+
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure',
+    launchOptions: {
+      slowMo: 500,
+    },
+
   },
   // Test timeout
   timeout: 2 * 60 * 1000,
@@ -63,26 +69,27 @@ export default defineConfig<TestOptions>({
         ...devices['Desktop Chromium'],
         viewport: null,
         launchOptions: {
-          args: ["--start-maximized"]
+          args: ["--start-maximized"],
         },
-        userLogin: WEB_CONFIG[environmentVar].UserLOGIN[0]
+        // userLogin: WEB_CONFIG[environmentVar].UserLOGIN[0]
       },
 
       // fullyParallel: true,
     },
 
-    // {
-    //   name: 'firefox',
-    //   use: {
-    //     ...devices['Desktop Firefox'],
-    //     userLogin: webConfig[environmentVar].UserLOGIN[1],
-    //   },
-    // },
+    {
+      name: 'firefox',
+      use: {
+        ...devices['Desktop Firefox']
+      },
+    },
 
-    // {
-    //   name: 'webkit',
-    //   use: { ...devices['Desktop Safari'] },
-    // },
+    {
+      name: 'webkit',
+      use: {
+        ...devices['Desktop Safari']
+      },
+    },
 
     /* Test against mobile viewports. */
     // {
