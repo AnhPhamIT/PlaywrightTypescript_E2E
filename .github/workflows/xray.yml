@@ -22,12 +22,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.41.1-jammy
- 
     strategy:
       matrix:
         node-version: [15.x]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
- 
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -36,9 +34,9 @@ jobs:
     - name: Install dependencies
       run: npm ci
     - name: Output Inputs
-      run: 
-       echo "${{ toJSON(github.event.inputs) }}"
-       pwd
+      run: echo "${{ toJSON(github.event.inputs) }}"
+    - name: Get current working folder
+      run: pwd
     - name: Run tests
       continue-on-error: true
       env: 
