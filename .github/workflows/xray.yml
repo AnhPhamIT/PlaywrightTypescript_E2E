@@ -48,7 +48,7 @@ jobs:
         ls
     - name: Output results file
       run: |
-        cat **/results.xml
+        cat results.xml
     - name: "Import results to Xray"
       uses: mikepenz/xray-action@v2.3.0
       with:
