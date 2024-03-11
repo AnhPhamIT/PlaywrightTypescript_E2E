@@ -25,10 +25,12 @@ const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`)
 
 export default defineConfig<TestOptions>({
   testDir: resolve(__dirname, `projects/${projectVar}/tests`),
+  // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}', 
+  // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
   // Folder for test artifacts such as screenshots, videos, traces, etc.
   outputDir: 'test-results',
   /* Run tests in files in parallel */
-  fullyParallel: true,
+  // fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
   /* Retry on CI only */
@@ -38,7 +40,7 @@ export default defineConfig<TestOptions>({
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: process.env.CI
     ? [
-      // ["junit", { outputFile: "results.xml" }],
+      ["junit", { outputFile: "results.xml" }],
       ["html", { open: "never" }],
     ]
     : [
@@ -77,19 +79,19 @@ export default defineConfig<TestOptions>({
       // fullyParallel: true,
     },
 
-    {
-      name: 'firefox',
-      use: {
-        ...devices['Desktop Firefox']
-      },
-    },
+    // {
+    //   name: 'firefox',
+    //   use: {
+    //     ...devices['Desktop Firefox']
+    //   },
+    // },
 
-    {
-      name: 'webkit',
-      use: {
-        ...devices['Desktop Safari']
-      },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: {
+    //     ...devices['Desktop Safari'],
+    //   },
+    // },
 
     /* Test against mobile viewports. */
     // {
