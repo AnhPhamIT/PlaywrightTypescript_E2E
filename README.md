@@ -1,6 +1,6 @@
 # Framework & E2E tests
 
-### Projects covered with E2E tests(used in configuration)::
+### Projects covered with E2E tests(used in configuration):
 
 - LambdaTest
 
