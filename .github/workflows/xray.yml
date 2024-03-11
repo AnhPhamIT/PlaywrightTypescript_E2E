@@ -1,0 +1,59 @@
+name: Node.js CI
+ 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      testExecKey:
+        description: 'Test Exec ID from Xray'
+        default: ''
+        required: true
+        type: string
+      projectKey:
+        description: 'Project ID from Xray'
+        default: ''
+        required: true
+        type: string
+jobs:
+  build:
+    runs-on: ubuntu-latest
+ 
+    strategy:
+      matrix:
+        node-version: [15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+ 
+    steps:
+    - uses: actions/checkout@v2
+    - name: Output Inputs
+      run: echo "${{ toJSON(github.event.inputs) }}"
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: |
+        npm install
+        npm i -D @playwright/test
+        npx playwright install
+    - name: Run tests
+      continue-on-error: true
+      run: | 
+        npx playwright test
+    - name: Output results file
+      run: |
+        cat results.xml
+    - name: "Import results to Xray"
+      uses: mikepenz/xray-action@v2.3.0
+      with:
+         username: ${{ secrets.JIRA_USERNAME }}
+         password: ${{ secrets.JIRA_PASSWORD }}
+         xrayCloud: "false"
+         xrayBaseUrl: ${{ secrets.JIRA_BASEURL }}
+         testFormat: "junit"
+         testPaths: "**/results.xml"
+         testExecKey: "${{ inputs.testExecKey }}"
+         projectKey: "${{ inputs.projectKey }}"
+         testEnvironments: "NODE_${{ matrix.node-version }}"
