@@ -52,10 +52,8 @@ jobs:
     - name: "Import results to Xray"
       uses: mikepenz/xray-action@v2.3.0
       with:
-         username: phamvananhph@gmail.com
-         password: '@Atlassian_AP89'
-         xrayCloud: "false"
-         xrayBaseUrl: https://phamvananhph.atlassian.net/
+         username: C2C01C7147844FD2A79F7E1C4A71DF3A
+         password: 15177a4619d2a83af195ef89f5e26a976e04f215d18a4f267407ae5abcb2720f
          testFormat: "junit"
          testPaths: "**/results.xml"
          testExecKey: "${{ inputs.testExecKey }}"
