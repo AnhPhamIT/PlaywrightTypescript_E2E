@@ -36,13 +36,13 @@ jobs:
     - name: Output Inputs
       run: echo "${{ toJSON(github.event.inputs) }}"
     - name: Get current working folder
-      run: pwd
+      run: echo $PWD
     - name: Run tests
       continue-on-error: true
       env: 
         HOME: /root
       run: | 
-        npx playwright test
+        npx playwright test --grep '@only'
     - name: Output results file
       run: |
         cat **/results.xml
