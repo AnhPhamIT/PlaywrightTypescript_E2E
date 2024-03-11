@@ -52,10 +52,10 @@ jobs:
     - name: "Import results to Xray"
       uses: mikepenz/xray-action@v2.3.0
       with:
-         username: ${{ secrets.JIRA_USERNAME }}
-         password: ${{ secrets.JIRA_PASSWORD }}
+         username: phamvananhph@gmail.com
+         password: '@Atlassian_AP89'
          xrayCloud: "false"
-         xrayBaseUrl: ${{ secrets.JIRA_BASEURL }}
+         xrayBaseUrl: https://phamvananhph.atlassian.net/
          testFormat: "junit"
          testPaths: "**/results.xml"
          testExecKey: "${{ inputs.testExecKey }}"
