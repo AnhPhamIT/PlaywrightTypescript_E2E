@@ -45,7 +45,6 @@ jobs:
         npx playwright test --grep '@only'
     - name: List all file in current directory 
       run: |
-        cd .\Playwright_LamdaTest\
         ls
     - name: Output results file
       run: |
