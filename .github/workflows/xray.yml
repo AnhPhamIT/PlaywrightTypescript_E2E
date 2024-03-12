@@ -46,11 +46,14 @@ jobs:
     - name: Output results file
       run: |
         cat results.xml
-    - name: 'Load environment variables'
-      id: dotenv
-      uses: ./.github/actions/dotenv-action
+    - name: Load .env file
+      uses: xom9ikk/dotenv@v2
+      with:
+        path: ./env
+        mode: development
+        load-mode: strict
     - name: "Import results to Xray"
       run: |
-        BASE_URL=${{ steps.dotenv.outputs.XRAY_HOST }}
+        BASE_URL=${{ env.XRAY_HOST }}
         token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $BASE_URL/api/v1/authenticate| tr -d '"')
         curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"results.xml" "https://xray.cloud.getxray.app/api/v1/import/execution/junit?projectKey=KAN&testExecKey=KAN-11&testEnvironments=QA"
