@@ -1,17 +1,18 @@
 export const WEB_CONFIG = {
     QA: {
-        WEBAPP: 'https://ecommerce-playground.lambdatest.io/',
-        API_URL: 'https://ecommerce-playground.lambdatest.io/index.php/',
+        WEBAPP: process.env.WEBAPP,
+        TESTAPP: process.env.TESTAPP,
+        API_URL: process.env.API_URL,
         UserLOGIN: [
             {
-                USERNAME: 'myname1@gmail.com',
-                PASSWORD: 'password'
+                USERNAME: process.env.USERNAME,
+                PASSWORD: process.env.PASSWORD
             }
         ]
 
     },
     PREPROD: {
-        WEBAPP: 'https://ecommerce-playground.lambdatest.preprod.io/',
-        API_URL: 'https://ecommerce-playground.lambdatest.preprod.io/index.php/',
+        WEBAPP: process.env.PREPROD_WEBAPP,
+        API_URL: process.env.PREPROD_API_URL,
     }
 }

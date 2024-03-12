@@ -6,7 +6,11 @@
   "scripts": {
     "project:firefox": "npx playwright test --project=firefox",
     "only": "npx playwright test --grep '@only'",
-    "test": "npx playwright test"
+    "dev": "vite",
+    "build": "vite build && tsc",
+    "preview": "vite preview",
+    "test": "npx playwright test",
+    "coverage": "rimraf coverage .nyc_output && npx playwright test App.test.ts && npx nyc report --reporter=html"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +19,28 @@
     "@faker-js/faker": "^8.4.1",
     "@playwright/test": "^1.41.2",
     "@types/node": "^20.11.7",
-    "dotenv": "^16.4.5"
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "dotenv": "^16.4.5",
+    "nyc": "^15.1.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.5",
+    "vite-plugin-istanbul": "^6.0.0"
+  },
+  "dependencies": {
+    "rimraf": "^5.0.5",
+    "@types/node": "^20.11.7",
+    "@types/react": "^18.2.64",
+    "@types/react-dom": "^18.2.21",
+    "@vitejs/plugin-react": "^4.2.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.4.2",
+    "vite": "^5.1.5",
+    "vite-plugin-istanbul": "^6.0.0"
   }
 }
