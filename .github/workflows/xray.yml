@@ -53,5 +53,4 @@ jobs:
       run: |
         BASE_URL=https://xray.cloud.getxray.app
         token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "C2C01C7147844FD2A79F7E1C4A71DF3A","client_secret": "15177a4619d2a83af195ef89f5e26a976e04f215d18a4f267407ae5abcb2720f" }' https://xray.cloud.getxray.app/api/v1/authenticate| tr -d '"')
-        ECHO "$token"
         curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"results.xml" "https://xray.cloud.getxray.app/api/v1/import/execution/junit?projectKey=KAN&testExecKey=KAN-11"
