@@ -7,7 +7,6 @@ import { TestOptions} from '../../type'
 
 export const test = base.extend<TestOptions>({
     userLogin:[{username:'myname1@gmail.com', password:'password'}, {option:true}],
-    apiURL:['', {option:true}],
-    baseURI: process.env.TESTAPP,
+    apiURL:['', {option:true}]
 })
 //https://stackoverflow.com/questions/77476850/how-do-you-add-a-custom-property-to-the-playwright-config-file
