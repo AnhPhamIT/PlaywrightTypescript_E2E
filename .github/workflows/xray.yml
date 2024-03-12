@@ -43,14 +43,15 @@ jobs:
         HOME: /root
       run: | 
         npx playwright test --grep '@only'
-    - name: List all file in current directory 
-      run: |
-        ls
     - name: Output results file
       run: |
         cat results.xml
+    - name: 'Load environment variables'
+      uses: dotenv-actions/setup-dotenv@v2
+      with:
+        dotenv_path: .env
     - name: "Import results to Xray"
       run: |
-        BASE_URL=https://xray.cloud.getxray.app
+        BASE_URL=$XRAY_HOST
         token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $BASE_URL/api/v1/authenticate| tr -d '"')
         curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"results.xml" "https://xray.cloud.getxray.app/api/v1/import/execution/junit?projectKey=KAN&testExecKey=KAN-11&testEnvironments=QA"
