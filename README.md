@@ -38,3 +38,4 @@ _Note_: If one find tests run too slow, speed it up by:
 - Decreasing slow motion by editing field `slowMo` in file `playwright.config.ts`.
 
 Beware speeding up may cause more flakiness from tests.
+
