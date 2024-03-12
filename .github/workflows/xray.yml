@@ -49,8 +49,6 @@ jobs:
     - name: Load .env file
       uses: xom9ikk/dotenv@v2
       with:
-        path: ./env
-        mode: development
         load-mode: strict
     - name: "Import results to Xray"
       run: |
