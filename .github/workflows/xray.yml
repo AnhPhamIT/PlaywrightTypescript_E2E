@@ -52,5 +52,5 @@ jobs:
     - name: "Import results to Xray"
       run: |
         BASE_URL=https://xray.cloud.getxray.app
-        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "2E420AFA080E4E959A061E2484CC679E","client_secret": "d2e8d89f3c5fa9fe69a784c66cabffe42f6a3491b9726ca4c067f0795f10967f" }' https://xray.cloud.getxray.app/api/v1/authenticate| tr -d '"')
-        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"results.xml" "https://xray.cloud.getxray.app/api/v1/import/execution/junit?projectKey=KAN&testExecKey=KAN-11"
+        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $BASE_URL/api/v1/authenticate| tr -d '"')
+        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"results.xml" "https://xray.cloud.getxray.app/api/v1/import/execution/junit?projectKey=KAN&testExecKey=KAN-11&testEnvironments=QA"
