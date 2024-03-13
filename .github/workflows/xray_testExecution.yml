@@ -1,4 +1,4 @@
-name: xray
+name: xray_testExecution
  
 on:
   push:
