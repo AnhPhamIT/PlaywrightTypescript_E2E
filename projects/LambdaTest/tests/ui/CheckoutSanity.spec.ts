@@ -1,15 +1,12 @@
-import { App } from "../pages/app";
-import { test } from "../fixtures/testOptions";
-import ProductInfo from "../fixtures/model/productInfo";
-import UserDetails from "../fixtures/model/userDetails";
+import { test } from "../../fixtures/page.fixture";
+import ProductInfo from "../../fixtures/model/productInfo";
+import UserDetails from "../../fixtures/model/userDetails";
 
-test.beforeEach(async ({ page }) => {
-    let app = new App(page);
+test.beforeEach(async ({ app }) => {
     await app.basePage.open();
 });
 
-test("Should able to checkout a product with new registered user", async ({ page }) => {
-    let app = new App(page);
+test("Should able to checkout a product with new registered user", async ({ app }) => {
     let productInfo: ProductInfo;
     var userDetails = new UserDetails();
 
@@ -34,8 +31,8 @@ test("Should able to checkout a product with new registered user", async ({ page
     await app.confirmOrderPage.confirmOrder(productInfo);
 });
 
-test("Should able to checkout product as returning user", async ({ page }) => {
-    let app = new App(page);
+test("Should able to checkout product as returning user", async ({ app }) => {
+    // let app = new App(page);
     let productInfo: ProductInfo;
     var userDetails = new UserDetails();
     await test.step("Create account", async () => {
@@ -67,12 +64,11 @@ test("Should able to checkout product as returning user", async ({ page }) => {
     });
 });
 
-test("@only Should able to search then checkout a product", async ({ page, userLogin }) => {
-    let app = new App(page);
+test("@only Should able to search then checkout a product", async ({ app, userLogin }) => {
     let productInfo: ProductInfo;
 
-    await page.setViewportSize({ width: 1600, height: 850 });
-    // await app.accountAPI.login(userLogin.USERNAME, userLogin.PASSWORD)
+    await app.page.setViewportSize({ width: 1600, height: 850 });
+    await app.accountAPI.login(userLogin.USERNAME, userLogin.PASSWORD);
     await app.topbarPage.searchProductByName("Nikon D300");
     await app.searchPage.validateProductImageByIndex(1);
     productInfo = await app.searchPage.addProductToCartByIndex(1);

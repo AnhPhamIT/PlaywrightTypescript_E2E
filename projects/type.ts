@@ -1,4 +1,5 @@
-export type TestOptions ={
-    userLogin: any,
-    apiURL:string
-}
+export type PageFixture = {
+    userLogin: any;
+    app: any;
+    api: any;
+};

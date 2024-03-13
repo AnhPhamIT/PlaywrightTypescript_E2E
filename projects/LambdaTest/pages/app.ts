@@ -27,6 +27,7 @@ export class App {
     private readonly _register: Register;
     private readonly _cart: Cart;
     private readonly _accountAPI: AccountAPI;
+    private readonly _page;
 
     constructor(page: Page, apiURL?: any) {
         this._base = new BasePage(page);
@@ -42,6 +43,7 @@ export class App {
         this._register = new Register(page);
         this._cart = new Cart(page);
         this._accountAPI = new AccountAPI(page);
+        this._page = page;
     }
 
     public get homePage(): Home {
@@ -92,5 +94,9 @@ export class App {
 
     public get cart(): Cart {
         return this._cart;
+    }
+
+    public get page(): Page {
+        return this._page;
     }
 }

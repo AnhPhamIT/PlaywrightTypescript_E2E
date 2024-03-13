@@ -1,4 +1,4 @@
-import { expect, test } from "../../fixtures/apiFixture";
+import { expect, test } from "../../fixtures/api.fixture";
 
 test("Get user information", async ({ api }) => {
     let params = { route: "account/edit" };

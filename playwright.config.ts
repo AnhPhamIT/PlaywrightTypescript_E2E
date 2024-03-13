@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import { resolve } from "path";
-import { TestOptions } from "./projects/type";
+import { PageFixture } from "./projects/type";
 
 /**
  * Read environment variables from file.
@@ -16,12 +16,12 @@ dotenv.config();
 //   // require('dotenv').config({'./'});
 // }
 // Read from default ".env" file.
-
 const environmentVar = process.env.TEST_ENVIRONMENT === undefined ? "" : process.env.TEST_ENVIRONMENT;
 const projectVar = process.env.PROJECT;
 const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
+// const { PageFixture } = require(`./projects/${projectVar}/fixtures/page.fixture`);
 
-export default defineConfig<TestOptions>({
+export default defineConfig<PageFixture>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
     // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
@@ -68,8 +68,8 @@ export default defineConfig<TestOptions>({
                 viewport: null,
                 launchOptions: {
                     args: ["--start-maximized"]
-                }
-                // userLogin: WEB_CONFIG[environmentVar].UserLOGIN[0]
+                },
+                userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
             }
 
             // fullyParallel: true,
