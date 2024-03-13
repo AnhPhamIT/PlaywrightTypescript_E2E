@@ -10,7 +10,7 @@
     "build": "vite build && tsc",
     "preview": "vite preview",
     "test": "npx playwright test",
-    "coverage": "rimraf coverage .nyc_output && npx playwright test App.test.ts && npx nyc report --reporter=html"
+    "coverage": "rimraf coverage .nyc_output && npx playwright test Coverage.test.ts && npx nyc report --reporter=html"
   },
   "keywords": [],
   "author": "",
