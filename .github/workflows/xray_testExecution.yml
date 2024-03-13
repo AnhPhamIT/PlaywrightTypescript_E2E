@@ -52,5 +52,6 @@ jobs:
         load-mode: strict
     - name: "Import results to Xray"
       run: |
-        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' ${{ env.XRAY_HOST }}/api/v1/authenticate| tr -d '"')
-        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "${{ env.XRAY_HOST }}/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testExecKey=${{ env.XRAY_TESTEXECUTION }}"
+        XRAY_HOST=https://xray.cloud.getxray.app
+        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $XRAY_HOST/api/v1/authenticate| tr -d '"')
+        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testExecKey=${{ env.XRAY_TESTEXECUTION }}"
