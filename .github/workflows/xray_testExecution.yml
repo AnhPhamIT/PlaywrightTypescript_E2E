@@ -3,11 +3,29 @@ name: xray
 on:
   push:
     branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      testExecKey:
+        description: 'Test Exec ID from Xray'
+        default: ''
+        required: true
+        type: string
+      projectKey:
+        description: 'Project ID from Xray'
+        default: ''
+        required: true
+        type: string
 jobs:
   test:
     runs-on: ubuntu-latest
     container:
       image: mcr.microsoft.com/playwright:v1.41.1-jammy
+    strategy:
+      matrix:
+        node-version: [15.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
@@ -15,12 +33,16 @@ jobs:
         node-version: 18
     - name: Install dependencies
       run: npm ci
+    - name: Output Inputs
+      run: echo "${{ toJSON(github.event.inputs) }}"
+    - name: Get current working folder
+      run: echo $PWD
     - name: Run tests
       continue-on-error: true
       env: 
         HOME: /root
       run: | 
-        npm run test
+        npx playwright test --grep '@only'
     - name: Output results file
       run: |
         cat results.xml
@@ -30,6 +52,5 @@ jobs:
         load-mode: strict
     - name: "Import results to Xray"
       run: |
-        XRAY_HOST=https://xray.cloud.getxray.app
-        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $XRAY_HOST/api/v1/authenticate| tr -d '"')
-        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testExecKey=${{ env.XRAY_TESTPLAN }}"
+        token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' ${{ env.XRAY_HOST }}/api/v1/authenticate| tr -d '"')
+        curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "${{ env.XRAY_HOST }}/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testExecKey=${{ env.XRAY_TESTEXECUTION }}"
