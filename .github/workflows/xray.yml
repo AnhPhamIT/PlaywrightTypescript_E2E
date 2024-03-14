@@ -20,7 +20,7 @@ jobs:
               env:
                   HOME: /root
               run: |
-                  npm run test
+                  npm run run:test
             - name: Output results file
               run: |
                   cat results.xml
