@@ -1,4 +1,4 @@
-import { test } from "../fixtures/CoverageTestFixture";
+import { test } from "../../fixtures/coverageTestFixture";
 
 test.beforeEach(async ({ page }) => {
   await page.goto("/")

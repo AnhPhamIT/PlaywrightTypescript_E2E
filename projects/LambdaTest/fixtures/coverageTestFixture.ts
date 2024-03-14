@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as crypto from 'crypto';
-import { test as baseTest } from '@playwright/test';
+import { PlaywrightTestOptions, test as baseTest } from '@playwright/test';
+
 
 const istanbulCLIOutput = path.join(process.cwd(), '.nyc_output');
 
@@ -9,7 +10,8 @@ export function generateUUID(): string {
   return crypto.randomBytes(16).toString('hex');
 }
 
-export const test = baseTest.extend({
+export const test = baseTest.extend<PlaywrightTestOptions>({
+  baseURL : process.env.FrontEnd_URL,
   context: async ({ context }, use) => {
     await context.addInitScript(() =>
       window.addEventListener('beforeunload', () =>
