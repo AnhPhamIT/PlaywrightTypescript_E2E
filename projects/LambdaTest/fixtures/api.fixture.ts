@@ -9,7 +9,6 @@ const test = base.extend({
     api: async ({ page }, use) => {
         let username = process.env.USER_NAME!;
         let password = process.env.PASSWORD!;
-        console.log(username + password);
         let account = new AccountAPI(page);
         const response = await account.login(username, password);
         expect(await response.text()).toContain("Shop by Category");

@@ -62,7 +62,12 @@ export default defineConfig<PageFixture>({
     /* Configure projects for major browsers */
     projects: [
         {
+            name: "api",
+            testMatch: "/tests/api/*"
+        },
+        {
             name: "chromium",
+            testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Chromium"],
                 viewport: null,
@@ -76,12 +81,14 @@ export default defineConfig<PageFixture>({
         },
         {
             name: "firefox",
+            testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Firefox"]
             }
         },
         {
             name: "webkit",
+            testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Safari"]
             }
