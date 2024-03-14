@@ -107,6 +107,7 @@ export default defineConfig<PageFixture>({
         //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
         // },
     ],
+    
     //testIgnore: ['front-end/*'],
     webServer: {
         command: 'npm run dev',
