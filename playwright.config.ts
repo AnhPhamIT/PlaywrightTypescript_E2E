@@ -22,7 +22,7 @@ const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
 // const { PageFixture } = require(`./projects/${projectVar}/fixtures/page.fixture`);
 
 export default defineConfig<PageFixture>({
-    testDir: resolve(__dirname, `projects/${projectVar}/tests`),
+    testDir: resolve(__dirname, `projects/${projectVar}/tests/front-end/`),
     // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
     // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
     // Folder for test artifacts such as screenshots, videos, traces, etc.
