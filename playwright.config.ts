@@ -115,7 +115,8 @@ export default defineConfig<PageFixture>({
         // },
     ],
 
-    testIgnore: ['front-end/*'],
+    testMatch: '*.spec.ts',
+    //testIgnore: `*.test.ts`,
     // webServer: {
     //     command: 'npm run dev',
     //     url: process.env.FRONTEND_URL,
