@@ -22,7 +22,7 @@ const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
 // const { PageFixture } = require(`./projects/${projectVar}/fixtures/page.fixture`);
 
 export default defineConfig<PageFixture>({
-    testDir: resolve(__dirname, `projects/${projectVar}/tests/front-end/`),
+    testDir: resolve(__dirname, `projects/${projectVar}/tests/`),
     // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
     // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
     // Folder for test artifacts such as screenshots, videos, traces, etc.
@@ -74,18 +74,18 @@ export default defineConfig<PageFixture>({
 
             // fullyParallel: true,
         },
-        {
-            name: "firefox",
-            use: {
-                ...devices["Desktop Firefox"]
-            }
-        },
-        {
-            name: "webkit",
-            use: {
-                ...devices["Desktop Safari"]
-            }
-        }
+        // {
+        //     name: "firefox",
+        //     use: {
+        //         ...devices["Desktop Firefox"]
+        //     }
+        // },
+        // {
+        //     name: "webkit",
+        //     use: {
+        //         ...devices["Desktop Safari"]
+        //     }
+        // }
 
         /* Test against mobile viewports. */
         // {
@@ -107,7 +107,7 @@ export default defineConfig<PageFixture>({
         //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
         // },
     ],
-    /* Run your local dev server before starting the tests */
+    //testIgnore: ['front-end/*'],
     webServer: {
         command: 'npm run dev',
         url: process.env.FRONTEND_URL,
