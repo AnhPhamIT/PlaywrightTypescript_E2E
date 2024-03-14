@@ -22,7 +22,7 @@ const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
 // const { PageFixture } = require(`./projects/${projectVar}/fixtures/page.fixture`);
 
 export default defineConfig<PageFixture>({
-    testDir: resolve(__dirname, `projects/${projectVar}/tests/`),
+    testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
     // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
     // Folder for test artifacts such as screenshots, videos, traces, etc.
@@ -62,7 +62,12 @@ export default defineConfig<PageFixture>({
     /* Configure projects for major browsers */
     projects: [
         {
+            name: "api",
+            testMatch: "/tests/api/*"
+        },
+        {
             name: "chromium",
+            testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Chromium"],
                 viewport: null,
@@ -74,18 +79,20 @@ export default defineConfig<PageFixture>({
 
             // fullyParallel: true,
         },
-        // {
-        //     name: "firefox",
-        //     use: {
-        //         ...devices["Desktop Firefox"]
-        //     }
-        // },
-        // {
-        //     name: "webkit",
-        //     use: {
-        //         ...devices["Desktop Safari"]
-        //     }
-        // }
+        {
+            name: "firefox",
+            testIgnore: "/tests/api/*",
+            use: {
+                ...devices["Desktop Firefox"]
+            }
+        },
+        {
+            name: "webkit",
+            testIgnore: "/tests/api/*",
+            use: {
+                ...devices["Desktop Safari"]
+            }
+        }
 
         /* Test against mobile viewports. */
         // {
@@ -107,13 +114,13 @@ export default defineConfig<PageFixture>({
         //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
         // },
     ],
-    
-    //testIgnore: ['front-end/*'],
-    webServer: {
-        command: 'npm run dev',
-        url: process.env.FRONTEND_URL,
-        env: {
-          USE_BABEL_PLUGIN_ISTANBUL: '1',
-        },
-    },
+
+    testIgnore: ['front-end/*'],
+    // webServer: {
+    //     command: 'npm run dev',
+    //     url: process.env.FRONTEND_URL,
+    //     env: {
+    //       USE_BABEL_PLUGIN_ISTANBUL: '1',
+    //     },
+    // },
 });

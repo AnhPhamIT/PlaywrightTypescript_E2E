@@ -10,4 +10,5 @@ node_modules/
 coverage/
 .nyc_output/
 dist/
-.vscode/
+.vscode/.vscode/
+/results.xml
