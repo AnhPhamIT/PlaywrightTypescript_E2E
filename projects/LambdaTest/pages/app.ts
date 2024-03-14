@@ -26,7 +26,7 @@ export class App {
     private readonly _logout: LogOut;
     private readonly _register: Register;
     private readonly _cart: Cart;
-    private readonly _accountAPI: AccountAPI;
+    // private readonly _accountAPI: AccountAPI;
     private readonly _page;
 
     constructor(page: Page, apiURL?: any) {
@@ -42,7 +42,7 @@ export class App {
         this._logout = new LogOut(page);
         this._register = new Register(page);
         this._cart = new Cart(page);
-        this._accountAPI = new AccountAPI(page);
+        // this._accountAPI = new AccountAPI(page);
         this._page = page;
     }
 
@@ -88,9 +88,9 @@ export class App {
         return this._register;
     }
 
-    public get accountAPI(): AccountAPI {
-        return this._accountAPI;
-    }
+    // public get accountAPI(): AccountAPI {
+    //     return this._accountAPI;
+    // }
 
     public get cart(): Cart {
         return this._cart;

@@ -19,16 +19,16 @@ dotenv.config();
 const environmentVar = process.env.TEST_ENVIRONMENT === undefined ? "" : process.env.TEST_ENVIRONMENT;
 const projectVar = process.env.PROJECT;
 const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
-// const { PageFixture } = require(`./projects/${projectVar}/fixtures/page.fixture`);
 
 export default defineConfig<PageFixture>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
-    // snapshotPathTemplate: '{testDir}/__screenshots__/{testFilePath}/{arg}{ext}',
-    // => C:\MyData\Learning\playwright\Playwright_multiProjects\projects\LambdaTest\tests\__screenshots__\CheckoutSanity.spec.ts\-only-Should-able-to-search-then-checkout-a-product-1.png
+    testIgnore: "/tests/api/*",
+    snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
+    // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
     // Folder for test artifacts such as screenshots, videos, traces, etc.
     outputDir: "test-results",
     /* Run tests in files in parallel */
-    // fullyParallel: true,
+    fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */

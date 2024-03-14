@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "project:firefox": "npx playwright test --project=firefox",
-    "only": "npx playwright test --grep '@only'",
-    "test": "npx playwright test"
+    "run:firefox": "npx playwright test --project=firefox",
+    "run:only": "npx playwright test --grep '@only'",
+    "run:test": "npx playwright test",
+    "run:api":"npx playwright test --project=api"
   },
   "keywords": [],
   "author": "",
