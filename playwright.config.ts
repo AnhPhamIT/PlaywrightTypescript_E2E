@@ -16,13 +16,10 @@ dotenv.config();
 //   // require('dotenv').config({'./'});
 // }
 // Read from default ".env" file.
-const environmentVar = process.env.TEST_ENVIRONMENT === undefined ? "" : process.env.TEST_ENVIRONMENT;
 const projectVar = process.env.PROJECT;
-const { WEB_CONFIG } = require(`./projects/${projectVar}/constants/webConfig`);
 
 export default defineConfig<PageFixture>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
-    testIgnore: "/tests/api/*",
     snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
     // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
     // Folder for test artifacts such as screenshots, videos, traces, etc.
@@ -48,7 +45,7 @@ export default defineConfig<PageFixture>({
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: process.env.BASE_URL || WEB_CONFIG[environmentVar].WEBAPP,
+        baseURL: process.env.BASE_URL,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "retain-on-failure",

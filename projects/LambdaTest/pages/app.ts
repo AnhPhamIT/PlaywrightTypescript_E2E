@@ -10,7 +10,7 @@ import { Search } from "./search.page";
 import { ShoppingCart } from "./components/shoppingCart.components";
 import { LogOut } from "./logout.page";
 import { Register } from "./register.page";
-import { AccountAPI } from "../api/account";
+// import { AccountAPI } from "../api/account";
 import { Cart } from "./cart.page";
 
 export class App {

@@ -1,9 +1,8 @@
 require("dotenv").config();
 const { expect } = require("@playwright/test");
-import { WEB_CONFIG } from "../constants/webConfig";
 
 class BaseAPI {
-    private apiURL = process.env.API_URL || WEB_CONFIG[process.env.TEST_ENVIRONMENT!].API_URL;
+    private apiURL = process.env.API_URL;
     customVariables = {};
     page;
 
