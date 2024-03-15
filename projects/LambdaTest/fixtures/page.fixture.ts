@@ -1,7 +1,7 @@
 import { test as base } from "@playwright/test";
 import { App } from "../pages/app";
-import BaseAPI from "../api/base";
 import { PageFixture } from "../../type";
+import { AccountAPI } from "../api/account";
 // export type PageFixture = {
 //     userLogin: any;
 //     app: any;
@@ -15,12 +15,10 @@ import { PageFixture } from "../../type";
 export const test = base.extend<PageFixture>({
     userLogin: [{ username: "", password: "" }, { option: true }],
     app: async ({ page }, use) => {
-        let app = new App(page);
-        await use(app);
+        await use(new App(page));
     },
     api: async ({ page }, use) => {
-        let api = new BaseAPI(page);
-        await use(api);
+        await use(new AccountAPI(page));
     }
 });
 //https://stackoverflow.com/questions/77476850/how-do-you-add-a-custom-property-to-the-playwright-config-file

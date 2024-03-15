@@ -1,7 +1,6 @@
 import { test } from "../../fixtures/page.fixture";
 import ProductInfo from "../../fixtures/model/productInfo";
 import UserDetails from "../../fixtures/model/userDetails";
-import { AccountAPI } from "../../api/account";
 
 test.beforeEach(async ({ app }) => {
     await app.basePage.open();
@@ -32,8 +31,7 @@ test("Should able to checkout a product with new registered user", async ({ app 
     await app.confirmOrderPage.confirmOrder(productInfo);
 });
 
-test("Should able to checkout product as returning user", async ({ app }) => {
-    let api = new AccountAPI(app.page);
+test("Should able to checkout product as returning user", async ({ app, api }) => {
     let productInfo: ProductInfo;
     var userDetails = new UserDetails();
     await test.step("Create account", async () => {
@@ -65,9 +63,8 @@ test("Should able to checkout product as returning user", async ({ app }) => {
     });
 });
 
-test("@only Should able to search then checkout a product", async ({ app, userLogin }) => {
+test("@only Should able to search then checkout a product", async ({ app, api, userLogin }) => {
     let productInfo: ProductInfo;
-    let api = new AccountAPI(app.page);
 
     await app.page.setViewportSize({ width: 1600, height: 850 });
     await api.login(userLogin.USERNAME, userLogin.PASSWORD);
