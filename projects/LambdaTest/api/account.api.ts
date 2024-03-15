@@ -5,7 +5,6 @@ import BaseAPI from "./base.api";
 export class AccountAPI extends BaseAPI {
     constructor(public page: Page) {
         super(page);
-        this.page = page;
     }
 
     async registerAccount(userDetails: User) {
