@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import ProductInfo from "../model/productInfo";
+import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 
 export class Search extends BasePage {
@@ -29,7 +29,7 @@ export class Search extends BasePage {
             // await this.page.locator('//a[contains(.,"View Cart")]').click()
         ]);
 
-        return new ProductInfo(name, price, 1);
+        return new Product(name, price, 1);
     }
 
     async validateProductImageByIndex(index: number) {

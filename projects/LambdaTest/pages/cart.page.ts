@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import ProductInfo from "../model/productInfo";
+import Product from "../model/product.model";
 
 export class Cart extends BasePage {
     constructor(page: Page) {
@@ -11,7 +11,7 @@ export class Cart extends BasePage {
         return this.page.locator("div#checkout-cart tr:has-text('" + normalizeName + "')");
     }
 
-    async validateShoppingCart(productInfo: ProductInfo) {
+    async validateShoppingCart(productInfo: Product) {
         console.log(`Product Info ${JSON.stringify(productInfo)}`);
         const productRow = this.getSelectedProduct(productInfo.name);
         const unitPrice = await productRow.locator("td").nth(4).textContent();

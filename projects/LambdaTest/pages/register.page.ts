@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import UserDetails from "../model/userDetails";
+import User from "../model/user.model";
 import { TopBar } from "./components/topbar.components";
 import { ACCOUNT_CREATED_MSG } from "../constants/messages";
 
@@ -22,7 +22,7 @@ export class Register extends BasePage {
         await this.waitForPageFullyLoaded("**/index.php?route=account/register");
     }
 
-    async registerAccount(userDetails: UserDetails) {
+    async registerAccount(userDetails: User) {
         let topBar = new TopBar(this.page);
         await topBar.selectMainMenu("My account", "Register");
         await this.userInputField("input-firstname").fill(userDetails.firstName);

@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import ProductInfo from "../model/productInfo";
+import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 
 export class ProductDetails extends BasePage {
@@ -58,7 +58,7 @@ export class ProductDetails extends BasePage {
         price = await this.price.textContent().then((p) => {
             return CommonUtils.convertCurrencyToNumber(p);
         });
-        return new ProductInfo(itemName, price, quantity, selectedOptions);
+        return new Product(itemName, price, quantity, selectedOptions);
     }
 
     async selectBuyNow() {

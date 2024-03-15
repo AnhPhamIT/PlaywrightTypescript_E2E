@@ -1,7 +1,7 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import UserDetails from "../model/userDetails";
-import ProductInfo from "../model/productInfo";
+import User from "../model/user.model";
+import Product from "../model/product.model";
 
 export class Checkout extends BasePage {
     constructor(page: Page) {
@@ -33,7 +33,7 @@ export class Checkout extends BasePage {
         return this.page.locator("div#checkout-cart tr:has-text('" + normalizeName + "')");
     }
 
-    async validateCheckoutItem(productInfo: ProductInfo) {
+    async validateCheckoutItem(productInfo: Product) {
         console.log(`Product Info ${JSON.stringify(productInfo)}`);
         const productRow = this.getSelectedProduct(productInfo.name);
         const actualQuantity = await productRow.locator("input").inputValue();
@@ -46,7 +46,7 @@ export class Checkout extends BasePage {
         expect(quantityPrice).toContain(calPrice.toString());
     }
 
-    async addGuestInfo(userDetails: UserDetails) {
+    async addGuestInfo(userDetails: User) {
         await this.guestRadio.click();
         await (await this.userInputField("input-payment-firstname")).fill(userDetails.firstName);
         await (await this.userInputField("input-payment-lastname")).fill(userDetails.lastName);
@@ -63,7 +63,7 @@ export class Checkout extends BasePage {
         await this.page.selectOption("#input-payment-zone", userDetails.zone);
     }
 
-    async addBillingAddress(userDetails: UserDetails) {
+    async addBillingAddress(userDetails: User) {
         await (await this.userInputField("input-payment-firstname")).fill(userDetails.firstName);
         await (await this.userInputField("input-payment-lastname")).fill(userDetails.lastName);
         await (await this.userInputField("input-payment-company")).fill(userDetails.company);
@@ -73,7 +73,7 @@ export class Checkout extends BasePage {
         await (await this.userInputField("input-payment-postcode")).fill(userDetails.postcode);
     }
 
-    async agreeAndContinueCheckout(userDetails: UserDetails) {
+    async agreeAndContinueCheckout(userDetails: User) {
         if (await this.billingAddressForm.isVisible()) {
             await this.addBillingAddress(userDetails);
         }

@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import ProductInfo from "../model/productInfo";
+import Product from "../model/product.model";
 import { ORDER_SUCCESS_MSG } from "../constants/messages";
 
 export class ConfirmOrder extends BasePage {
@@ -22,7 +22,7 @@ export class ConfirmOrder extends BasePage {
         return this.page.locator('#content tr:has-text("' + normalizeName + '")');
     }
 
-    async confirmOrder(productInfo: ProductInfo) {
+    async confirmOrder(productInfo: Product) {
         const orderItem = this.orderItem(productInfo.name);
         // await expect(orderItem.locator('td').nth(1)).toContainText('Product 1')
         await expect(orderItem.locator("td").nth(2)).toContainText(productInfo.quantity.toString());
