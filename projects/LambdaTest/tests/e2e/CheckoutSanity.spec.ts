@@ -1,6 +1,6 @@
 import { test } from "../../fixtures/page.fixture";
-import ProductInfo from "../../fixtures/model/productInfo";
-import UserDetails from "../../fixtures/model/userDetails";
+import ProductInfo from "../../model/productInfo";
+import UserDetails from "../../model/userDetails";
 
 test.beforeEach(async ({ app }) => {
     await app.basePage.open();

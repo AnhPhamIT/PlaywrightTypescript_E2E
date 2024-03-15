@@ -1,6 +1,5 @@
 import { expect } from "@playwright/test";
 import { test } from "../../fixtures/page.fixture";
-import { AccountAPI } from "../../api/account";
 
 test("@my test Login with API", async ({ app, api, userLogin }) => {
     const response = await api.login(userLogin.USERNAME, userLogin.PASSWORD);

@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../base.page";
-import ProductInfo from "../../fixtures/model/productInfo";
+import ProductInfo from "../../model/productInfo";
 
 export class ShoppingCart extends BasePage {
     constructor(page: Page) {

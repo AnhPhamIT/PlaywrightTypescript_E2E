@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
-import UserDetails from "../fixtures/model/userDetails";
-import BaseAPI from "./base";
+import UserDetails from "../model/userDetails";
+import BaseAPI from "./base.api";
 
 export class AccountAPI extends BaseAPI {
     constructor(public page: Page) {

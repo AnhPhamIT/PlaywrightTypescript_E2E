@@ -1,6 +1,6 @@
 import { test as base, expect } from "@playwright/test";
-import { AccountAPI } from "../api/account";
-import BaseAPI from "../api/base";
+import { AccountAPI } from "../api/account.api";
+import BaseAPI from "../api/base.api";
 import * as dotenv from "dotenv";
 
 dotenv.config();

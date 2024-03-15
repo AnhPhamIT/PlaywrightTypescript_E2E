@@ -1,7 +1,7 @@
 import { test as base } from "@playwright/test";
 import { App } from "../pages/app";
 import { PageFixture } from "../../type";
-import { AccountAPI } from "../api/account";
+import { AccountAPI } from "../api/account.api";
 // export type PageFixture = {
 //     userLogin: any;
 //     app: any;
