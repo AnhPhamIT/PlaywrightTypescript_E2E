@@ -4,8 +4,8 @@ test("Get user information", async ({ api }) => {
     let params = { route: "account/edit" };
     let response = await api.GET("/", { requestParams: params });
     let body = await response.text();
-    await expect(body).toContain("My Account Information");
-    await expect(body).toContain(api.customVariables.email);
+    expect(body).toContain("My Account Information");
+    expect(body).toContain(api.customVariables.email);
 });
 
 test("Update address details for required fields", async ({ api }) => {
@@ -25,5 +25,5 @@ test("Update address details for required fields", async ({ api }) => {
 
     let response = await api.POST("/", body, { requestParams: params });
     let respBody = await response.text();
-    await expect(respBody).toContain("Your address has been successfully updated");
+    expect(respBody).toContain("Your address has been successfully updated");
 });

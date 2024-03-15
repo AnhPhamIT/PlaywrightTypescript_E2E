@@ -1,6 +1,7 @@
 import { test } from "../../fixtures/page.fixture";
 import ProductInfo from "../../fixtures/model/productInfo";
 import UserDetails from "../../fixtures/model/userDetails";
+import { AccountAPI } from "../../api/account";
 
 test.beforeEach(async ({ app }) => {
     await app.basePage.open();
@@ -32,12 +33,12 @@ test("Should able to checkout a product with new registered user", async ({ app 
 });
 
 test("Should able to checkout product as returning user", async ({ app }) => {
-    // let app = new App(page);
+    let api = new AccountAPI(app.page);
     let productInfo: ProductInfo;
     var userDetails = new UserDetails();
     await test.step("Create account", async () => {
-        await app.accountAPI.registerAccount(userDetails);
-        await app.accountAPI.logOut();
+        await api.registerAccount(userDetails);
+        await api.logOut();
     });
 
     await test.step("Login with existing account", async () => {
@@ -66,9 +67,10 @@ test("Should able to checkout product as returning user", async ({ app }) => {
 
 test("@only Should able to search then checkout a product", async ({ app, userLogin }) => {
     let productInfo: ProductInfo;
+    let api = new AccountAPI(app.page);
 
     await app.page.setViewportSize({ width: 1600, height: 850 });
-    await app.accountAPI.login(userLogin.USERNAME, userLogin.PASSWORD);
+    await api.login(userLogin.USERNAME, userLogin.PASSWORD);
     await app.topbarPage.searchProductByName("Nikon D300");
     await app.searchPage.validateProductImageByIndex(1);
     productInfo = await app.searchPage.addProductToCartByIndex(1);
