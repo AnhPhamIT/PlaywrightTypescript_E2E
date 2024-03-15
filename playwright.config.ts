@@ -79,20 +79,20 @@ export default defineConfig<PageFixture>({
 
             // fullyParallel: true,
         },
-        {
-            name: "firefox",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Firefox"]
-            }
-        },
-        {
-            name: "webkit",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Safari"]
-            }
-        }
+        // {
+        //     name: "firefox",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Firefox"]
+        //     }
+        // },
+        // {
+        //     name: "webkit",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Safari"]
+        //     }
+        // }
 
         /* Test against mobile viewports. */
         // {
@@ -115,13 +115,14 @@ export default defineConfig<PageFixture>({
         // },
     ],
 
-    testMatch: '*.spec.ts',
+    testMatch: '*.test.ts',
+    //testMatch: '*.spec.ts',
     //testIgnore: `*.test.ts`,
-    // webServer: {
-    //     command: 'npm run dev',
-    //     url: process.env.FRONTEND_URL,
-    //     env: {
-    //       USE_BABEL_PLUGIN_ISTANBUL: '1',
-    //     },
-    // },
+    webServer: {
+        command: 'npm run dev',
+        url: process.env.FRONTEND_URL,
+        env: {
+          USE_BABEL_PLUGIN_ISTANBUL: '1',
+        },
+    },
 });
