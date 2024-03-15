@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-//import logo from './logo.svg';
-//const logo = require("./logo.svg") as string;
+import Hello from './Hello'; 
 
 const App = () => {
+  const [showHello, setShowHello] = useState(false);
   const [backgroundColor, setBackgroundColor] = React.useState("#1abc9c")
   const handleMakeTurquoise = () => {
     setBackgroundColor("#1abc9c")
@@ -13,13 +13,16 @@ const App = () => {
   }
   const handleMakeYellow = () => {
     setBackgroundColor("#f1c40f")
+    setShowHello(!showHello);
+    
   }
   return (
     <div className="App">
       <header className="App-header" style={{ backgroundColor }}>
         {/* <img src={logo} className="App-logo" alt="logo" /> */}
+        {showHello && <Hello />}
         <p>
-          Default collor is Turquoise; click on the buttons to change backgroup collor
+          Default collor is Turquoise; click on the buttons to change background collor
         </p>
         <a
           className="App-link"

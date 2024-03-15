@@ -11,7 +11,7 @@ export default defineConfig({
     react(),
     ...(process.env.USE_BABEL_PLUGIN_ISTANBUL ? [IstanbulPlugin({
       include: 'src/*',
-      exclude: ['node_modules', 'test/'],
+      exclude: ['node_modules', 'projects/'],
       extension: [ '.js', '.ts','.tsx' ],
     })] : [])
   ],
