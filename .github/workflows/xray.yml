@@ -3,6 +3,18 @@ name: xray
 on:
     push:
         branches: [main]
+    workflow_dispatch:
+        inputs:
+            testPlanKey:
+                description: "Test Plan ID from Xray"
+                default: ""
+                required: true
+                type: string
+            projectKey:
+                description: "Project ID from Xray"
+                default: ""
+                required: true
+                type: string
 jobs:
     test:
         runs-on: ubuntu-latest
