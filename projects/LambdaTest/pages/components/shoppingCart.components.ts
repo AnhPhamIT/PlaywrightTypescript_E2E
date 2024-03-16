@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "../base.page";
-import ProductInfo from "../../fixtures/model/productInfo";
+import Product from "../../model/product.model";
 
 export class ShoppingCart extends BasePage {
     constructor(page: Page) {
@@ -11,7 +11,7 @@ export class ShoppingCart extends BasePage {
         return this.page.locator('table tr:has-text("' + name + '")');
     }
 
-    async validateProductShoppingCart(product: ProductInfo) {
+    async validateProductShoppingCart(product: Product) {
         const productRow = this.getProductLs(product.name);
         let actualPrice = await productRow.locator("td").nth(3).textContent();
         expect(actualPrice).toContain(product.price.toString());

@@ -1,14 +1,13 @@
 import { Page } from "@playwright/test";
-import UserDetails from "../fixtures/model/userDetails";
-import BaseAPI from "./base";
+import User from "../model/user.model";
+import BaseAPI from "./base.api";
 
 export class AccountAPI extends BaseAPI {
     constructor(public page: Page) {
         super(page);
-        this.page = page;
     }
 
-    async registerAccount(userDetails: UserDetails) {
+    async registerAccount(userDetails: User) {
         let body = {
             form: {
                 firstname: userDetails.firstName,

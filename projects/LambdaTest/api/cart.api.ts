@@ -1,29 +1,36 @@
 import { Page } from "@playwright/test";
-export class CartAPI{
-
-    constructor(public page:Page, public apiURL:string){}
+import BaseAPI from "./base.api";
+export class CartAPI extends BaseAPI {
+    constructor(public page: Page) {
+        super(page);
+    }
     async addToCartAPI(productId: any, quantity: number) {
-        const response = await this.page.request.post(this.apiURL, {
+        let params = {
             params: {
                 route: "checkout/cart/add"
-            },
+            }
+        };
+        let body = {
             form: {
                 product_id: productId,
                 quantity: quantity
             }
-        })
+        };
+        return await this.POST("/", body, { requestParams: params });
     }
 
     async editCartAPI(productId: any, quantity: number) {
-        const response = await this.page.request.post(this.apiURL, {
+        let params = {
             params: {
                 route: "checkout/cart/edit"
-            },
+            }
+        };
+        let body = {
             form: {
                 product_id: productId,
                 quantity: quantity
             }
-        })
-        return response
+        };
+        return await this.POST("/", body, { requestParams: params });
     }
 }

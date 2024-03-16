@@ -1,15 +1,14 @@
 import { test } from "../../fixtures/page.fixture";
-import ProductInfo from "../../fixtures/model/productInfo";
-import UserDetails from "../../fixtures/model/userDetails";
-import { AccountAPI } from "../../api/account";
+import Product from "../../model/product.model";
+import User from "../../model/user.model";
 
 test.beforeEach(async ({ app }) => {
     await app.basePage.open();
 });
 
 test("Should able to checkout a product with new registered user", async ({ app }) => {
-    let productInfo: ProductInfo;
-    var userDetails = new UserDetails();
+    let productInfo: Product;
+    let userDetails = new User();
 
     console.log("Register new account");
     await app.registerPage.registerAccount(userDetails);
@@ -32,10 +31,9 @@ test("Should able to checkout a product with new registered user", async ({ app 
     await app.confirmOrderPage.confirmOrder(productInfo);
 });
 
-test("Should able to checkout product as returning user", async ({ app }) => {
-    let api = new AccountAPI(app.page);
-    let productInfo: ProductInfo;
-    var userDetails = new UserDetails();
+test("Should able to checkout product as returning user", async ({ app, api }) => {
+    let productInfo: Product;
+    let userDetails = new User();
     await test.step("Create account", async () => {
         await api.registerAccount(userDetails);
         await api.logOut();
@@ -65,9 +63,8 @@ test("Should able to checkout product as returning user", async ({ app }) => {
     });
 });
 
-test("@only Should able to search then checkout a product", async ({ app, userLogin }) => {
-    let productInfo: ProductInfo;
-    let api = new AccountAPI(app.page);
+test("@only Should able to search then checkout a product", async ({ app, api, userLogin }) => {
+    let productInfo: Product;
 
     await app.page.setViewportSize({ width: 1600, height: 850 });
     await api.login(userLogin.USERNAME, userLogin.PASSWORD);

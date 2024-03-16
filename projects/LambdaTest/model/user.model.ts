@@ -1,5 +1,5 @@
 import { faker } from "@faker-js/faker";
-export default class UserDetails {
+export default class User {
     //--- Personal Details
     public firstName: any;
     public lastName: any;
