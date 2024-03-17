@@ -15,7 +15,7 @@ test("Should able to checkout a product with new registered user", async ({ app 
     await app.topbarPage.goToHomePage();
 
     console.log("STEP 1: Select the a product of Collection section");
-    await app.homePage.viewCollectionProductByIndex(0);
+    await app.homePage.selectAProductByIndex(0);
 
     console.log("STEP 2: On product details, select quantity and Buy Now");
     productInfo = await app.productDetailsPage.inputOrderDetails(2);
@@ -25,7 +25,7 @@ test("Should able to checkout a product with new registered user", async ({ app 
     await app.checkoutPage.validateCheckoutItem(productInfo);
 
     console.log("STEP 3.2: Fill in customer information");
-    await app.checkoutPage.agreeAndContinueCheckout(userDetails);
+    await app.checkoutPage.inputBillingAddressAndContinue(userDetails);
 
     console.log("STEP 4: confirm the order and recieve Order Success");
     await app.confirmOrderPage.confirmOrder(productInfo);
@@ -44,21 +44,20 @@ test("Should able to checkout product as returning user", async ({ app, api }) =
         await app.topbarPage.goToHomePage();
     });
 
-    await test.step("Select the a product of Collection section", async () => {
-        await app.homePage.viewCollectionProductByIndex(1);
+    await test.step("On Home page, select a product from Collection section", async () => {
+        await app.homePage.selectAProductByIndex(1);
     });
     await test.step("On product details, input order details and Buy Now", async () => {
         productInfo = await app.productDetailsPage.inputOrderDetails(2);
         await app.productDetailsPage.selectBuyNow();
     });
-    await test.step("On cart, validate product information", async () => {
+    await test.step("On cart page, validate order details", async () => {
         await app.checkoutPage.validateCheckoutItem(productInfo);
-        // await app.cart.validateShoppingCart(productInfo)
     });
-    await test.step("Fill in customer information", async () => {
-        await app.checkoutPage.agreeAndContinueCheckout(userDetails);
+    await test.step("On Checkout page, Fill in shipping/ billing address and continue", async () => {
+        await app.checkoutPage.inputBillingAddressAndContinue(userDetails);
     });
-    await test.step("Confirm the order and recieve Order Success", async () => {
+    await test.step("On Confirm Order page, confirm the order and recieve Order Success", async () => {
         await app.confirmOrderPage.confirmOrder(productInfo);
     });
 });
