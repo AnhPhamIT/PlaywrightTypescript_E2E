@@ -73,7 +73,7 @@ export class Checkout extends BasePage {
         await (await this.userInputField("input-payment-postcode")).fill(userDetails.postcode);
     }
 
-    async agreeAndContinueCheckout(userDetails: User) {
+    async inputBillingAddressAndContinue(userDetails: User) {
         if (await this.billingAddressForm.isVisible()) {
             await this.addBillingAddress(userDetails);
         }
