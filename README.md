@@ -2,13 +2,13 @@
 
 ### Projects covered with E2E tests(used in configuration):
 
-- LambdaTest
+-   LambdaTest
 
 ### System requirements
 
 ### Installation
 
-- `npm install`
+-   `npm install`
 
 ### Usage
 
@@ -26,6 +26,7 @@ Sometimes it is helpful to run e2e test suite againts your balanced server local
 PROJECT=LambdaTest
 TEST_ENVIRONMENT=QA
 ```
+
 2. Run command
 
 ```
@@ -34,8 +35,8 @@ npx playwright test --trace on --workers 1
 
 _Note_: If one find tests run too slow, speed it up by:
 
-- Increasing number of workers running concurrently (eg. `--workers 4`).
-- Decreasing slow motion by editing field `slowMo` in file `playwright.config.ts`.
+-   Increasing number of workers running concurrently (eg. `--workers 4`).
+-   Decreasing slow motion by editing field `slowMo` in file `playwright.config.ts`.
 
 Beware speeding up may cause more flakiness from tests.
-
+commit code
