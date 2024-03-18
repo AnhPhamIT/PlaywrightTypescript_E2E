@@ -4,8 +4,8 @@ import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 
 export class ProductDetails extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
     get price() {
         return this.page.locator("div.price h3");
@@ -13,14 +13,13 @@ export class ProductDetails extends BasePage {
     get name() {
         return this.page.locator("div.content-title h1");
     }
-    get quantityInput() {
-        return this.page.locator('div.entry-section input[name="quantity"]');
-    }
+
     get buyNowBtn() {
         return this.page.locator('button[title="Buy now"]');
     }
     get addToCart_btn() {
-        return this.page.locator('div.entry-col button[title="Add to Cart"]');
+        const addToCartLocator = this.page.locator('button[title="Add to Cart"]');
+        return this.isMobile ? addToCartLocator.nth(0) : addToCartLocator.nth(1);
     }
     get buywNow_btn() {
         return this.page.locator('div.entry-col button[title="Buy now"]');
@@ -30,6 +29,12 @@ export class ProductDetails extends BasePage {
     }
     get size_ddl() {
         return this.page.locator('(//select[@class="custom-select"])[1]');
+    }
+
+    get quantityInput() {
+        return this.isMobile
+            ? this.page.locator('div.fixed-bottom input[name="quantity"]')
+            : this.page.locator('div.entry-section input[name="quantity"]');
     }
 
     async randomSizeIdx() {
@@ -62,7 +67,12 @@ export class ProductDetails extends BasePage {
     }
 
     async selectBuyNow() {
-        await this.buywNow_btn.click();
+        if (this.isMobile) {
+            await this.addToCart_btn.click();
+            await this.selectActionOnNotification("Checkout");
+        } else {
+            await this.buywNow_btn.click();
+        }
     }
 
     async selectAddToCart() {

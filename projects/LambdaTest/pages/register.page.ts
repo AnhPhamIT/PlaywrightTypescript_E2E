@@ -5,8 +5,8 @@ import { TopBar } from "./components/topbar.components";
 import { ACCOUNT_CREATED_MSG } from "../constants/messages";
 
 export class Register extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
     get agree_radio() {
         return this.page.locator("label[for='input-agree']");
@@ -23,8 +23,8 @@ export class Register extends BasePage {
     }
 
     async registerAccount(userDetails: User) {
-        let topBar = new TopBar(this.page);
-        await topBar.selectMainMenu("My account", "Register");
+        let topBar = new TopBar(this.page, this.isMobile);
+        await topBar.selectMenu("My account", "Register");
         await this.userInputField("input-firstname").fill(userDetails.firstName);
         await this.userInputField("input-lastname").fill(userDetails.lastName);
         await this.userInputField("input-email").fill(userDetails.email);

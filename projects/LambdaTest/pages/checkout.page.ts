@@ -4,8 +4,8 @@ import User from "../model/user.model";
 import Product from "../model/product.model";
 
 export class Checkout extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
     get billingAddressForm() {
         return this.page.locator("div#payment-new");
@@ -25,7 +25,7 @@ export class Checkout extends BasePage {
     }
 
     async userInputField(field: any) {
-        return this.page.locator(`#${field}`);
+        return this.page.locator(`input#${field}`);
     }
 
     getSelectedProduct(name: any) {

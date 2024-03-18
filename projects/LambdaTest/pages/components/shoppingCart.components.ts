@@ -3,8 +3,8 @@ import { BasePage } from "../base.page";
 import Product from "../../model/product.model";
 
 export class ShoppingCart extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
 
     getProductLs(name: string) {

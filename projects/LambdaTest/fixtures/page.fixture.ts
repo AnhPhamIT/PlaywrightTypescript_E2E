@@ -14,8 +14,8 @@ import { AccountAPI } from "../api/account.api";
 
 export const test = base.extend<PageFixture>({
     userLogin: [{ username: "", password: "" }, { option: true }],
-    app: async ({ page }, use) => {
-        await use(new App(page));
+    app: async ({ page, isMobile }, use) => {
+        await use(new App(page, isMobile));
     },
     api: async ({ page }, use) => {
         await use(new AccountAPI(page));

@@ -3,9 +3,11 @@ import { Page, expect } from "@playwright/test";
 
 export class BasePage {
     readonly page: Page;
+    isMobile: boolean;
 
-    constructor(page: Page) {
+    constructor(page: Page, isMobile: boolean) {
         this.page = page;
+        this.isMobile = isMobile;
     }
     get resultContinue_btn() {
         return this.page.locator("#common-success a.btn");

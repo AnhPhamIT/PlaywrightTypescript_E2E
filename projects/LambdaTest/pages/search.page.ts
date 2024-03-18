@@ -4,8 +4,8 @@ import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 
 export class Search extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
     get productItem() {
         return this.page.locator("div.product-thumb");

@@ -2,8 +2,8 @@ import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
 
 export class Home extends BasePage {
-    constructor(page: Page) {
-        super(page);
+    constructor(page: Page, isMobile: boolean) {
+        super(page, isMobile);
     }
 
     get collectionProducts() {
