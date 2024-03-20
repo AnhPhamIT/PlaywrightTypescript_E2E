@@ -1,7 +1,8 @@
-import { test as base } from "@playwright/test";
+// import { test as base } from "@playwright/test";
 import { App } from "../pages/app";
 import { PageFixture } from "../../type";
 import { AccountAPI } from "../api/account.api";
+import { test as base } from "@chromatic-com/playwright";
 // export type PageFixture = {
 //     userLogin: any;
 //     app: any;
@@ -14,8 +15,8 @@ import { AccountAPI } from "../api/account.api";
 
 export const test = base.extend<PageFixture>({
     userLogin: [{ username: "", password: "" }, { option: true }],
-    app: async ({ page, isMobile }, use) => {
-        await use(new App(page, isMobile));
+    app: async ({ page, isMobile }, use, testInfo) => {
+        await use(new App(page, isMobile, testInfo));
     },
     api: async ({ page }, use) => {
         await use(new AccountAPI(page));

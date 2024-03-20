@@ -1,4 +1,4 @@
-import { Page } from "@playwright/test";
+import { Page, TestInfo } from "@playwright/test";
 import { BasePage } from "./base.page";
 import { Checkout } from "./checkout.page";
 import { Home } from "./home.page";
@@ -27,19 +27,19 @@ export class App {
     private readonly _cart: Cart;
     private readonly _page;
 
-    constructor(page: Page, isMobile: boolean) {
-        this._base = new BasePage(page, isMobile);
-        this._checkout = new Checkout(page, isMobile);
-        this._confirmOrder = new ConfirmOrder(page, isMobile);
-        this._home = new Home(page, isMobile);
+    constructor(page: Page, isMobile: boolean, testInfo: TestInfo) {
+        this._base = new BasePage(page);
+        this._checkout = new Checkout(page);
+        this._confirmOrder = new ConfirmOrder(page);
+        this._home = new Home(page);
         this._productDetails = new ProductDetails(page, isMobile);
         this._login = new Login(page, isMobile);
         this._topbar = new TopBar(page, isMobile);
-        this._search = new Search(page, isMobile);
-        this._shoppingCart = new ShoppingCart(page, isMobile);
-        this._logout = new LogOut(page, isMobile);
+        this._search = new Search(page, testInfo);
+        this._shoppingCart = new ShoppingCart(page);
+        this._logout = new LogOut(page);
         this._register = new Register(page, isMobile);
-        this._cart = new Cart(page, isMobile);
+        this._cart = new Cart(page);
         // this._accountAPI = new AccountAPI(page);
         this._page = page;
     }

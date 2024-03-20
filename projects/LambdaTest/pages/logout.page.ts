@@ -3,8 +3,8 @@ import { BasePage } from "./base.page";
 import { ACCOUNT_LOGOUT } from "../constants/messages";
 
 export class LogOut extends BasePage {
-    constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+    constructor(page: Page) {
+        super(page);
     }
 
     async logOut() {

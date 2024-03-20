@@ -3,8 +3,10 @@ import { Page } from "@playwright/test";
 import { TopBar } from "./components/topbar.components";
 
 export class Login extends BasePage {
+    isMobile: boolean;
     constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+        super(page);
+        this.isMobile = isMobile;
     }
 
     get emailInput() {

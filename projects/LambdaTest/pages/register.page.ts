@@ -5,8 +5,10 @@ import { TopBar } from "./components/topbar.components";
 import { ACCOUNT_CREATED_MSG } from "../constants/messages";
 
 export class Register extends BasePage {
+    isMobile: boolean;
     constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+        super(page);
+        this.isMobile = isMobile;
     }
     get agree_radio() {
         return this.page.locator("label[for='input-agree']");

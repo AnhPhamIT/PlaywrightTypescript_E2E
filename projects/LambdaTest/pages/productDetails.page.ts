@@ -1,11 +1,13 @@
-import { Page, expect } from "@playwright/test";
+import { Page, expect, test } from "@playwright/test";
 import { BasePage } from "./base.page";
 import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 
 export class ProductDetails extends BasePage {
+    isMobile: boolean;
     constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+        super(page);
+        this.isMobile = isMobile;
     }
     get price() {
         return this.page.locator("div.price h3");

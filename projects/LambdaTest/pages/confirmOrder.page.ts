@@ -4,8 +4,8 @@ import Product from "../model/product.model";
 import { ORDER_SUCCESS_MSG } from "../constants/messages";
 
 export class ConfirmOrder extends BasePage {
-    constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+    constructor(page: Page) {
+        super(page);
     }
     get confirmBtn() {
         return this.page.locator("button#button-confirm");
