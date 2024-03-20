@@ -1,11 +1,14 @@
-import { Page, expect } from "@playwright/test";
+import { Page, TestInfo } from "@playwright/test";
 import { BasePage } from "./base.page";
 import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
+import { takeSnapshot } from "@chromatic-com/playwright";
 
 export class Search extends BasePage {
-    constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+    testInfo: TestInfo;
+    constructor(page: Page, testInfo: TestInfo) {
+        super(page);
+        this.testInfo = testInfo;
     }
     get productItem() {
         return this.page.locator("div.product-thumb");
@@ -38,6 +41,8 @@ export class Search extends BasePage {
         const productImg = this.productItem.locator("div.carousel-item.active img").nth(index);
         await productImg.scrollIntoViewIfNeeded();
         await productImg.waitFor();
-        await expect(productImg).toHaveScreenshot({ maxDiffPixelRatio: 0.2 });
+
+        // await expect(productImg).toHaveScreenshot({ maxDiffPixelRatio: 0.2 });
+        await takeSnapshot(this.page, this.testInfo);
     }
 }

@@ -4,8 +4,8 @@ import User from "../model/user.model";
 import Product from "../model/product.model";
 
 export class Checkout extends BasePage {
-    constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+    constructor(page: Page) {
+        super(page);
     }
     get billingAddressForm() {
         return this.page.locator("div#payment-new");

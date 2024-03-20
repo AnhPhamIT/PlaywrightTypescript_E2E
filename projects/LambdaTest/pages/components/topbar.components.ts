@@ -2,8 +2,10 @@ import { Page, expect } from "@playwright/test";
 import { BasePage } from "../base.page";
 
 export class TopBar extends BasePage {
+    isMobile: boolean;
     constructor(page: Page, isMobile: boolean) {
-        super(page, isMobile);
+        super(page);
+        this.isMobile = isMobile;
     }
     get main_menu() {
         return this.page.locator("div#main-navigation ul.navbar-nav li");
