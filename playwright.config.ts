@@ -25,7 +25,7 @@ export default defineConfig<PageFixture>({
     // Folder for test artifacts such as screenshots, videos, traces, etc.
     outputDir: "test-results",
     /* Run tests in files in parallel */
-    fullyParallel: true,
+    // fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
@@ -33,15 +33,16 @@ export default defineConfig<PageFixture>({
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: process.env.CI
-        ? [
-              ["junit", { outputFile: "results.xml" }],
-              ["html", { open: "never" }]
-          ]
-        : [
-              ["html", { open: "on-failure" }],
-              ["junit", { outputFile: "results.xml" }]
-          ],
+    reporter: process.env.CI ? "blob" : "html",
+    // reporter: process.env.CI
+    //     ? [
+    //           ["junit", { outputFile: "results.xml" }],
+    //           ["html", { open: "never" }]
+    //       ]
+    //     : [
+    //           ["html", { open: "on-failure" }],
+    //           ["junit", { outputFile: "results.xml" }]
+    //       ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
