@@ -2,11 +2,7 @@ import { test } from "../../fixtures/page.fixture";
 import Product from "../../model/product.model";
 import User from "../../model/user.model";
 
-test.beforeEach(async ({ app }) => {
-    await app.basePage.open();
-});
-
-test("Should able to checkout a product with new registered user", async ({ app }) => {
+test("@webApp2 Should able to checkout a product with new registered user", async ({ app }) => {
     let productInfo: Product;
     let userDetails = new User();
 

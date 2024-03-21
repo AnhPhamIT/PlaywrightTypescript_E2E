@@ -3,8 +3,11 @@ import User from "../model/user.model";
 import BaseAPI from "./base.api";
 
 export class AccountAPI extends BaseAPI {
-    constructor(public page: Page) {
-        super(page);
+    constructor(
+        public page: Page,
+        public apiUrl
+    ) {
+        super(page, apiUrl);
     }
 
     async registerAccount(userDetails: User) {

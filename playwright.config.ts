@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import { resolve } from "path";
-import { PageFixture } from "./projects/type";
+import { TestOptions } from "./projects/type";
 
 /**
  * Read environment variables from file.
@@ -17,8 +17,10 @@ dotenv.config();
 // }
 // Read from default ".env" file.
 const projectVar = process.env.PROJECT;
+const config = process.env.TEST_ENV;
+const env = require(`./config/${config}.env.json`); // load env from json
 
-export default defineConfig<PageFixture>({
+export default defineConfig<TestOptions>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
     // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
@@ -45,7 +47,7 @@ export default defineConfig<PageFixture>({
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: process.env.BASE_URL,
+        baseURL: env.webapp1.baseUrl,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "retain-on-failure",
@@ -54,7 +56,7 @@ export default defineConfig<PageFixture>({
         }
     },
     // Test timeout
-    timeout: 2 * 60 * 1000,
+    timeout: 3 * 60 * 1000,
 
     /* Configure projects for major browsers */
     projects: [
@@ -67,35 +69,34 @@ export default defineConfig<PageFixture>({
             testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Chromium"],
-                viewport: null,
-                launchOptions: {
-                    args: ["--start-maximized"]
-                },
-                userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
+                viewport: { width: 1920, height: 1024 }
+                // apiUrl: env.webapp1.apiUrl,
+                // userLogin: { username: env.webapp1.userName, password: env.webapp1.password }
             }
 
-            // fullyParallel: true,
+            // fullyParallel: true
         },
         {
             name: "firefox",
             testIgnore: "/tests/api/*",
             use: {
-                ...devices["Desktop Firefox"]
+                ...devices["Desktop Firefox"],
+                viewport: { width: 1680, height: 1050 }
             }
         },
         {
             name: "webkit",
             testIgnore: "/tests/api/*",
             use: {
-                ...devices["Desktop Safari"]
+                ...devices["Desktop Safari"],
+                viewport: { width: 1280, height: 800 }
             }
-        }
-
+        },
         /* Test against mobile viewports. */
-        // {
-        //   name: 'Mobile Chrome',
-        //   use: { ...devices['Pixel 5'] },
-        // },
+        {
+            name: "Mobile Chrome",
+            use: { ...devices["Pixel 5"] }
+        }
         // {
         //   name: 'Mobile Safari',
         //   use: { ...devices['iPhone 12'] },
