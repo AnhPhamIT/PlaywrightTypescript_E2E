@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import { resolve } from "path";
 import { PageFixture } from "./projects/type";
+import { ChromaticConfig } from "@chromatic-com/playwright";
 
 /**
  * Read environment variables from file.
@@ -18,7 +19,7 @@ dotenv.config();
 // Read from default ".env" file.
 const projectVar = process.env.PROJECT;
 
-export default defineConfig<PageFixture>({
+export default defineConfig<PageFixture & ChromaticConfig>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
     // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
@@ -52,7 +53,8 @@ export default defineConfig<PageFixture>({
         trace: "retain-on-failure",
         launchOptions: {
             slowMo: 500
-        }
+        },
+        disableAutoSnapshot: true
     },
     // Test timeout
     timeout: 2 * 60 * 1000,

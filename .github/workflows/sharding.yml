@@ -81,7 +81,7 @@ jobs:
               env:
                   PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml"
                   PLAYWRIGHT_JUNIT_OUTPUT_PATH: ./junit-reports
-              run: npx playwright merge-reports --reporter junit $PLAYWRIGHT_JUNIT_OUTPUT_PATH
+              run: npx playwright merge-reports --reporter junit ./all-blob-reports
 
             - name: Upload junit report
               uses: actions/upload-artifact@v4
