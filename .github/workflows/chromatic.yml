@@ -34,6 +34,7 @@ jobs:
                   HOME: /root
               run: |
                   npm run run:test
+                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
             - name: Run Chromatic
               uses: chromaui/action@latest
               with:
