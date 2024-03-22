@@ -6,7 +6,7 @@ test.beforeEach(async ({ app }) => {
     await app.basePage.open();
 });
 
-test("@only Should able to search then checkout a product", async ({ app, api, userLogin }, testInfo) => {
+test("@only Should able to search then checkout a product", async ({ app, api, userLogin }) => {
     let productInfo: Product;
     await api.login(userLogin.USERNAME, userLogin.PASSWORD);
     await app.topbarPage.searchProductByName("Nikon D300");
