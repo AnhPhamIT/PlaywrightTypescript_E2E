@@ -70,7 +70,10 @@ jobs:
                   merge-multiple: true
 
             - name: Merge into HTML Report
-              run: npx playwright merge-reports --reporter=html ./all-blob-reports
+              run: |
+                  npx playwright merge-reports --reporter=html,junit ./all-blob-reports
+                  pwd
+                  ls
 
             - name: Upload HTML report
               uses: actions/upload-artifact@v4
@@ -78,15 +81,15 @@ jobs:
                   name: html-report--attempt-${{ github.run_attempt }}
                   path: playwright-report
                   retention-days: 14
-
-            - name: Merge into junit Report
+            - name: Output results file
               run: |
-                  npx playwright merge-reports --reporter=junit ./all-blob-reports
-                  pwd
-                  ls
-            - name: Upload junit report
-              uses: actions/upload-artifact@v4
+                  cat junit-report.xml
+            - name: Load .env file
+              uses: xom9ikk/dotenv@v2
               with:
-                  name: junit-report.xml
-                  path: junit-report.xml
-                  retention-days: 14
+                  load-mode: strict
+            - name: "Import results to Xray"
+              run: |
+                  XRAY_HOST=https://xray.cloud.getxray.app
+                  token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $XRAY_HOST/api/v1/authenticate| tr -d '"')
+                  curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testPlanKey=${{ env.XRAY_TESTPLAN }}"
