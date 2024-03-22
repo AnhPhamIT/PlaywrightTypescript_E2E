@@ -53,8 +53,8 @@ export default defineConfig<PageFixture & ChromaticConfig>({
         trace: "retain-on-failure",
         launchOptions: {
             slowMo: 500
-        },
-        disableAutoSnapshot: true
+        }
+        // disableAutoSnapshot: true
     },
     // Test timeout
     timeout: 2 * 60 * 1000,
@@ -70,10 +70,6 @@ export default defineConfig<PageFixture & ChromaticConfig>({
             testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Chromium"],
-                viewport: null,
-                launchOptions: {
-                    args: ["--start-maximized"]
-                },
                 userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
             }
 
