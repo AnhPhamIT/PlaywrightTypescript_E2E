@@ -53,8 +53,8 @@ export default defineConfig<PageFixture & ChromaticConfig>({
         trace: "retain-on-failure",
         launchOptions: {
             slowMo: 500
-        }
-        // disableAutoSnapshot: true
+        },
+        disableAutoSnapshot: true
     },
     // Test timeout
     timeout: 2 * 60 * 1000,
