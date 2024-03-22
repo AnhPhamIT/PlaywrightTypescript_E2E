@@ -36,16 +36,14 @@ jobs:
               run: |
                   npm run run:test
             - name: Run Chromatic
-                # uses: chromaui/action@latest
-                run: |
-                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
-                  npx chromatic --playwright -t=${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-            #   with:
-            #       # ⚠️ enable playwright
-            #       playwright: true
-            #       # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
-            #       projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-            #       run: git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
+              uses: chromaui/action@latest
+              with:
+                  # ⚠️ enable playwright
+                  playwright: true
+                  # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
+                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+                  token: ${{ secrets.CHROMATIC_GITHUB_TOKEN }}
+                  exitOnceUploaded: true
             - uses: actions/upload-artifact@v3
               if: always()
               with:
