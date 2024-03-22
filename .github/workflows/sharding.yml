@@ -76,12 +76,15 @@ jobs:
                   name: html-report--attempt-${{ github.run_attempt }}
                   path: playwright-report
                   retention-days: 14
-            - name: Merge into Junit Report
-              run: npx playwright merge-reports --reporter junit ./all-blob-reports
+
+            - name: Merge into junit Report
+              env:
+                  PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml"
+              run: npx playwright merge-reports --reporter junit $PLAYWRIGHT_JUNIT_OUTPUT_NAME
 
             - name: Upload junit report
               uses: actions/upload-artifact@v4
               with:
-                  name: junit-report--attempt-${{ github.run_attempt }}
-                  path: playwright-report
+                  name: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+                  path: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
                   retention-days: 14
