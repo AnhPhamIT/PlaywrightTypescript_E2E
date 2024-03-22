@@ -28,6 +28,8 @@ jobs:
             image: mcr.microsoft.com/playwright:v1.41.1-jammy
         steps:
             - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
             - uses: actions/setup-node@v3
               with:
                   node-version: 18
@@ -39,6 +41,18 @@ jobs:
                   HOME: /root
               run: |
                   npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
+            - name: git
+              run: |
+                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
+                  git config --global --get safe.directory
+            - name: Run Chromatic
+              uses: chromaui/action@latest
+              with:
+                  # ⚠️ enable playwright
+                  playwright: true
+                  # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
+                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+                  exitOnceUploaded: true
             - name: Upload blob report to GitHub Actions Artifacts
               if: always()
               uses: actions/upload-artifact@v4
