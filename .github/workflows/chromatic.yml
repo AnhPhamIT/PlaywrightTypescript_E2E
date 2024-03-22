@@ -35,6 +35,7 @@ jobs:
                   HOME: /root
               run: |
                   npm run run:test
+                  npm run chromatic
             - name: Run Chromatic
               uses: chromaui/action@latest
               with:
