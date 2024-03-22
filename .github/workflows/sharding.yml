@@ -87,6 +87,6 @@ jobs:
             - name: Upload junit report
               uses: actions/upload-artifact@v4
               with:
-                  name: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
-                  path: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+                  name: junit-report.xml
+                  path: junit-report.xml
                   retention-days: 14
