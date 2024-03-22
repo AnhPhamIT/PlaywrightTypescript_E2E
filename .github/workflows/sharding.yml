@@ -81,7 +81,9 @@ jobs:
 
             - name: Merge into junit Report
               run: |
-                  npx playwright merge-reports --reporter=junit ./all-blob-reports > $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+                  npx playwright merge-reports --reporter=junit ./all-blob-reports
+                  pwd
+                  ls
             - name: Upload junit report
               uses: actions/upload-artifact@v4
               with:
