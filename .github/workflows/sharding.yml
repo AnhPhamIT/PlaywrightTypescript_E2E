@@ -80,11 +80,12 @@ jobs:
             - name: Merge into junit Report
               env:
                   PLAYWRIGHT_JUNIT_OUTPUT_NAME: "results.xml"
-              run: npx playwright merge-reports --reporter junit $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+                  PLAYWRIGHT_JUNIT_OUTPUT_PATH: ./junit-reports
+              run: npx playwright merge-reports --reporter junit $PLAYWRIGHT_JUNIT_OUTPUT_PATH
 
             - name: Upload junit report
               uses: actions/upload-artifact@v4
               with:
                   name: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
-                  path: $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+                  path: $PLAYWRIGHT_JUNIT_OUTPUT_PATH
                   retention-days: 14
