@@ -83,7 +83,7 @@ jobs:
                   retention-days: 14
             - name: Output results file
               run: |
-                  cat junit-report.xml
+                  cat $PLAYWRIGHT_JUNIT_OUTPUT_NAME
             - name: Load .env file
               uses: xom9ikk/dotenv@v2
               with:
@@ -92,4 +92,4 @@ jobs:
               run: |
                   XRAY_HOST=https://xray.cloud.getxray.app
                   token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $XRAY_HOST/api/v1/authenticate| tr -d '"')
-                  curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @"${{ env.XRAY_GENERATE_REPORT }}" "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testPlanKey=${{ env.XRAY_TESTPLAN }}"
+                  curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @$PLAYWRIGHT_JUNIT_OUTPUT_NAME "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testPlanKey=${{ env.XRAY_TESTPLAN }}"
