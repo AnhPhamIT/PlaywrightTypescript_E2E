@@ -22,8 +22,7 @@ jobs:
         strategy:
             fail-fast: false
             matrix:
-                shardIndex: [1, 2, 3, 4]
-                shardTotal: [4]
+                shard: [1, 2, 3, 4]
         container:
             image: mcr.microsoft.com/playwright:v1.41.1-jammy
         steps:
@@ -40,26 +39,47 @@ jobs:
               env:
                   HOME: /root
               run: |
-                  npx playwright test --shard=${{ matrix.shardIndex }}/${{ matrix.shardTotal }}
-            - name: git
-              run: |
-                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
-                  git config --global --get safe.directory
-            - name: Run Chromatic
-              uses: chromaui/action@latest
+                  npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+            - uses: actions/upload-artifact@v4
+              if: always()
               with:
-                  # ⚠️ enable playwright
-                  playwright: true
-                  # ⚠️ Make sure to configure a `CHROMATIC_PROJECT_TOKEN` repository secret
-                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
-                  exitOnceUploaded: true
+                  name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
+                  path: ./test-results/chromatic-archives
+                  retention-days: 30
             - name: Upload blob report to GitHub Actions Artifacts
               if: always()
               uses: actions/upload-artifact@v4
               with:
-                  name: blob-report-${{ matrix.shardIndex }}
+                  name: blob-report-${{ matrix.shard }}
                   path: blob-report
                   retention-days: 1
+    run-chromatic:
+        needs: [playwright-tests]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 18.x
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+            - name: git
+              run: |
+                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
+                  git config --global --get safe.directory
+            - name: Download all workflow run artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: ./test-results/chromatic-archives
+                  pattern: playwright-report-*
+                  merge-multiple: true
+            - name: Run Chromatic tests
+              uses: chromaui/action@latest
+              with:
+                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+                  playwright: true
     merge-reports:
         # Merge reports after playwright-tests, even if some shards have failed
         if: always()
