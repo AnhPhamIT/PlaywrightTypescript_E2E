@@ -52,6 +52,8 @@ jobs:
         needs: [playwright-tests]
 
         runs-on: ubuntu-latest
+        env:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: "junit-report.xml"
         steps:
             - uses: actions/checkout@v4
             - uses: actions/setup-node@v4
@@ -78,8 +80,6 @@ jobs:
                   retention-days: 14
 
             - name: Merge into junit Report
-              env:
-                  PLAYWRIGHT_JUNIT_OUTPUT_NAME: "junit-report.xml"
               run: |
                   npx playwright merge-reports --reporter=junit ./all-blob-reports > $PLAYWRIGHT_JUNIT_OUTPUT_NAME
             - name: Upload junit report
