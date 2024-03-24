@@ -1,16 +1,28 @@
 // import { test as base } from "@playwright/test";
 import { App } from "../pages/app";
-import { PageFixture } from "../../type";
 import { AccountAPI } from "../api/account.api";
+import { TestOptions } from "../../type";
 import { test as base } from "@chromatic-com/playwright";
+const config = process.env.TEST_ENV;
+const env = require(`../../../config/${config}.env.json`); // load env from json
 
-export const test = base.extend<PageFixture>({
+const website = "@webApp2";
+
+export const test = base.extend<TestOptions>({
     userLogin: [{ username: "", password: "" }, { option: true }],
-    app: async ({ page, isMobile }, use, testInfo) => {
-        await use(new App(page, isMobile, testInfo));
+    apiUrl: ["", { option: true }],
+    app: async ({ page, isMobile, baseURL }, use, testInfo) => {
+        let testTitle = testInfo.title;
+        let app = new App(page, isMobile, testInfo);
+        if (testTitle.includes(website)) {
+            baseURL = env.webapp2.baseUrl;
+            await app.basePage.open(baseURL);
+        } else {
+            await app.basePage.open();
+        }
+        await use(app);
     },
-    api: async ({ page }, use) => {
-        await use(new AccountAPI(page));
+    api: async ({ page, apiUrl }, use) => {
+        await use(new AccountAPI(page, apiUrl));
     }
 });
-//https://stackoverflow.com/questions/77476850/how-do-you-add-a-custom-property-to-the-playwright-config-file

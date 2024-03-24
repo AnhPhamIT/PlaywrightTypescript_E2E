@@ -2,12 +2,13 @@ require("dotenv").config();
 const { expect } = require("@playwright/test");
 
 class BaseAPI {
-    private apiURL = process.env.API_URL;
+    private apiURL;
     customVariables = {};
     page;
 
-    constructor(page) {
+    constructor(page, apiUrl) {
         this.page = page;
+        this.apiURL = apiUrl;
         page.context({
             baseURL: this.apiURL
         });
