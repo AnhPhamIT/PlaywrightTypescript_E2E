@@ -3,10 +3,6 @@ import Product from "../../model/product.model";
 import User from "../../model/user.model";
 
 test.describe("Checkout flow", async () => {
-    test.beforeEach(async ({ app }) => {
-        await app.basePage.open();
-    });
-
     test("@webApp2 Should able to checkout a product with new registered user", async ({ app }) => {
         let productInfo: Product;
         let userDetails = new User();
