@@ -3,12 +3,15 @@ import { BasePage } from "./base.page";
 import Product from "../model/product.model";
 import CommonUtils from "../support/util/commonUtils";
 import { takeSnapshot } from "@chromatic-com/playwright";
+import { ProductDetails } from "./productDetails.page";
 
 export class Search extends BasePage {
     testInfo: TestInfo;
-    constructor(page: Page, testInfo: TestInfo) {
+    isMobile: boolean;
+    constructor(page: Page, testInfo: TestInfo, isMobile: boolean) {
         super(page);
         this.testInfo = testInfo;
+        this.isMobile = isMobile;
     }
     get productItem() {
         return this.page.locator("div.product-thumb");
@@ -24,13 +27,19 @@ export class Search extends BasePage {
             .then((p) => {
                 return CommonUtils.convertCurrencyToNumber(p);
             });
-        await selectedProduct.hover({ trial: true });
-        await selectedProduct.hover();
-        await Promise.all([
-            await selectedProduct.locator('button[title="Add to Cart"]').click()
-            // await this.page.locator("div.toast-body").waitFor(),
-            // await this.page.locator('//a[contains(.,"View Cart")]').click()
-        ]);
+        if (this.isMobile) {
+            let productPage = new ProductDetails(this.page, this.isMobile);
+            await selectedProduct.click();
+            productPage.selectAddToCart();
+        } else {
+            await selectedProduct.hover({ trial: true });
+            await selectedProduct.hover();
+            await Promise.all([
+                await selectedProduct.locator('button[title="Add to Cart"]').click()
+                // await this.page.locator("div.toast-body").waitFor(),
+                // await this.page.locator('//a[contains(.,"View Cart")]').click()
+            ]);
+        }
 
         return new Product(name, price, 1);
     }

@@ -1,0 +1,129 @@
+name: mainFlow
+
+on:
+    push:
+        branches: [main]
+    workflow_dispatch:
+        inputs:
+            testPlanKey:
+                description: "Test Plan ID from Xray"
+                default: ""
+                required: true
+                type: string
+            projectKey:
+                description: "Project ID from Xray"
+                default: ""
+                required: true
+                type: string
+jobs:
+    playwright-tests:
+        timeout-minutes: 60
+        runs-on: ubuntu-latest
+        strategy:
+            fail-fast: false
+            matrix:
+                shard: [1, 2, 3, 4]
+        container:
+            image: mcr.microsoft.com/playwright:v1.41.1-jammy
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 18
+            - name: Install dependencies
+              run: npm ci
+            - name: Run Playwright tests
+              continue-on-error: true
+              env:
+                  HOME: /root
+              run: |
+                  npx playwright test --shard=${{ matrix.shard }}/${{ strategy.job-total }}
+            - uses: actions/upload-artifact@v4
+              if: always()
+              with:
+                  name: playwright-report-${{ matrix.shard }}_${{ strategy.job-total }}
+                  path: ./test-results/chromatic-archives
+                  retention-days: 30
+            - name: Upload blob report to GitHub Actions Artifacts
+              if: always()
+              uses: actions/upload-artifact@v4
+              with:
+                  name: blob-report-${{ matrix.shard }}
+                  path: blob-report
+                  retention-days: 1
+    run-chromatic:
+        needs: [playwright-tests]
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+              with:
+                  fetch-depth: 0
+            - uses: actions/setup-node@v1
+              with:
+                  node-version: 18.x
+            - name: Install dependencies
+              uses: bahmutov/npm-install@v1
+            - name: git
+              run: |
+                  git config --global --add safe.directory /__w/Playwright_LamdaTest/Playwright_LamdaTest
+                  git config --global --get safe.directory
+            - name: Download all workflow run artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: ./test-results/chromatic-archives
+                  pattern: playwright-report-*
+                  merge-multiple: true
+            - name: Run Chromatic tests
+              uses: chromaui/action@latest
+              with:
+                  projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+                  playwright: true
+    merge-reports:
+        # Merge reports after playwright-tests, even if some shards have failed
+        if: always()
+        needs: [playwright-tests]
+
+        runs-on: ubuntu-latest
+        env:
+            PLAYWRIGHT_JUNIT_OUTPUT_NAME: "junit-report.xml"
+        steps:
+            - uses: actions/checkout@v4
+            - uses: actions/setup-node@v4
+              with:
+                  node-version: 18
+            - name: Install dependencies
+              run: npm ci
+
+            - name: Download blob reports from GitHub Actions Artifacts
+              uses: actions/download-artifact@v4
+              with:
+                  path: all-blob-reports
+                  pattern: blob-report-*
+                  merge-multiple: true
+
+            - name: Merge into HTML Report
+              run: |
+                  npx playwright merge-reports --reporter=html,junit ./all-blob-reports
+                  pwd
+                  ls
+
+            - name: Upload HTML report
+              uses: actions/upload-artifact@v4
+              with:
+                  name: html-report--attempt-${{ github.run_attempt }}
+                  path: playwright-report
+                  retention-days: 14
+            - name: Output results file
+              run: |
+                  cat $PLAYWRIGHT_JUNIT_OUTPUT_NAME
+            - name: Load .env file
+              uses: xom9ikk/dotenv@v2
+              with:
+                  load-mode: strict
+            - name: "Import results to Xray"
+              run: |
+                  XRAY_HOST=https://xray.cloud.getxray.app
+                  token=$(curl -H "Content-Type: application/json" -X POST --data '{ "client_id": "${{ secrets.XRAY_CLIENT_ID }}","client_secret": "${{ secrets.XRAY_CLIENT_SECRET }}" }' $XRAY_HOST/api/v1/authenticate| tr -d '"')
+                  curl -H "Content-Type: text/xml" -X POST -H "Authorization: Bearer $token"  --data @$PLAYWRIGHT_JUNIT_OUTPUT_NAME "$XRAY_HOST/api/v1/import/execution/junit?projectKey=${{ env.XRAY_PROJECTKEY }}&testPlanKey=${{ env.XRAY_TESTPLAN }}"

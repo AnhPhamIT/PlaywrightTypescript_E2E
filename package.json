@@ -6,7 +6,8 @@
   "scripts": {
     "run:only": "npx playwright test --grep '@only'",
     "run:test": "npx playwright test",
-    "run:api": "npx playwright test --project=api"
+    "run:api": "npx playwright test --project=api",
+    "chromatic": "chromatic --playwright --exit-zero-on-changes"
   },
   "keywords": [],
   "author": "",

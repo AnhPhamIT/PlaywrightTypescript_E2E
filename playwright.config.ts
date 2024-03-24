@@ -2,6 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import { resolve } from "path";
 import { TestOptions } from "./projects/type";
+import { ChromaticConfig } from "@chromatic-com/playwright";
 
 /**
  * Read environment variables from file.
@@ -19,8 +20,7 @@ dotenv.config();
 const projectVar = process.env.PROJECT;
 const config = process.env.TEST_ENV;
 const env = require(`./config/${config}.env.json`); // load env from json
-
-export default defineConfig<TestOptions>({
+export default defineConfig<TestOptions & ChromaticConfig>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
     // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
@@ -31,19 +31,20 @@ export default defineConfig<TestOptions>({
     /* Fail the build on CI if you accidentally left test.only in the source code. */
     forbidOnly: !!process.env.CI,
     /* Retry on CI only */
-    retries: process.env.CI ? 2 : 0,
+    retries: process.env.CI ? 1 : 0,
     /* Opt out of parallel tests on CI. */
     workers: process.env.CI ? 1 : undefined,
     /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-    reporter: process.env.CI
-        ? [
-              ["junit", { outputFile: "results.xml" }],
-              ["html", { open: "never" }]
-          ]
-        : [
-              ["html", { open: "on-failure" }],
-              ["junit", { outputFile: "results.xml" }]
-          ],
+    reporter: process.env.CI ? "blob" : "html",
+    // reporter: process.env.CI
+    //     ? [
+    //           ["junit", { outputFile: "results.xml" }],
+    //           ["html", { open: "never" }]
+    //       ]
+    //     : [
+    //           ["html", { open: "on-failure" }],
+    //           ["junit", { outputFile: "results.xml" }]
+    //       ],
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
@@ -53,7 +54,8 @@ export default defineConfig<TestOptions>({
         trace: "retain-on-failure",
         launchOptions: {
             slowMo: 500
-        }
+        },
+        disableAutoSnapshot: true
     },
     // Test timeout
     timeout: 3 * 60 * 1000,
@@ -64,24 +66,22 @@ export default defineConfig<TestOptions>({
             name: "api",
             testMatch: "/tests/api/*"
         },
-        {
-            name: "chromium",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Chromium"],
-                viewport: { width: 1920, height: 1024 }
-                // apiUrl: env.webapp1.apiUrl,
-                // userLogin: { username: env.webapp1.userName, password: env.webapp1.password }
-            }
+        // {
+        //     name: "chromium",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Chromium"],
+        //         // userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
+        //     }
 
-            // fullyParallel: true
-        },
+        //     // fullyParallel: true,
+        // },
         {
             name: "firefox",
             testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Firefox"],
-                viewport: { width: 1680, height: 1050 }
+                viewport: { width: 1600, height: 1200 }
             }
         },
         {
@@ -89,9 +89,10 @@ export default defineConfig<TestOptions>({
             testIgnore: "/tests/api/*",
             use: {
                 ...devices["Desktop Safari"],
-                viewport: { width: 1280, height: 800 }
+                viewport: { width: 1280, height: 1050 }
             }
         },
+
         /* Test against mobile viewports. */
         {
             name: "Mobile Chrome",

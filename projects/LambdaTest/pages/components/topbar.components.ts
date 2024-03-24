@@ -11,10 +11,12 @@ export class TopBar extends BasePage {
         return this.page.locator("div#main-navigation ul.navbar-nav li");
     }
     get search_input() {
-        return this.page.locator('div#main-header input[name="search"]');
+        const searchLocator = this.page.locator('input[name="search"]');
+        return this.isMobile ? searchLocator.nth(1) : searchLocator.nth(0);
     }
     get search_btn() {
-        return this.page.locator('div#main-header button[type="submit"]');
+        const searchBtn = this.page.locator('button[type="submit"]');
+        return this.isMobile ? searchBtn.nth(1) : searchBtn.nth(0);
     }
     get cart_btn() {
         return this.page.locator(".cart-icon").first();
