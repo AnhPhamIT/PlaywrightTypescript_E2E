@@ -35,7 +35,7 @@ export class App {
         this._productDetails = new ProductDetails(page, isMobile);
         this._login = new Login(page, isMobile);
         this._topbar = new TopBar(page, isMobile);
-        this._search = new Search(page, testInfo);
+        this._search = new Search(page, testInfo, isMobile);
         this._shoppingCart = new ShoppingCart(page);
         this._logout = new LogOut(page);
         this._register = new Register(page, isMobile);

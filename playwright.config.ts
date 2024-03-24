@@ -65,36 +65,38 @@ export default defineConfig<PageFixture & ChromaticConfig>({
             name: "api",
             testMatch: "/tests/api/*"
         },
-        {
-            name: "chromium",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Chromium"],
-                userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
-            }
+        // {
+        //     name: "chromium",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Chromium"],
+        //         // userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
+        //     }
 
-            // fullyParallel: true,
-        },
+        //     // fullyParallel: true,
+        // },
         {
             name: "firefox",
             testIgnore: "/tests/api/*",
             use: {
-                ...devices["Desktop Firefox"]
+                ...devices["Desktop Firefox"],
+                viewport: { width: 1600, height: 1200 }
             }
         },
         {
             name: "webkit",
             testIgnore: "/tests/api/*",
             use: {
-                ...devices["Desktop Safari"]
+                ...devices["Desktop Safari"],
+                viewport: { width: 1280, height: 1050 }
             }
-        }
+        },
 
         /* Test against mobile viewports. */
-        // {
-        //   name: 'Mobile Chrome',
-        //   use: { ...devices['Pixel 5'] },
-        // },
+        {
+            name: "Mobile Chrome",
+            use: { ...devices["Pixel 5"] }
+        }
         // {
         //   name: 'Mobile Safari',
         //   use: { ...devices['iPhone 12'] },

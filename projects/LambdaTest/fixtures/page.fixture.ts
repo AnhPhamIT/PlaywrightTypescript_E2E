@@ -3,15 +3,6 @@ import { App } from "../pages/app";
 import { PageFixture } from "../../type";
 import { AccountAPI } from "../api/account.api";
 import { test as base } from "@chromatic-com/playwright";
-// export type PageFixture = {
-//     userLogin: any;
-//     app: any;
-//     api: any;
-// };
-
-// export const user = base.extend<PageFixture>({
-//     userLogin: [{ username: "", password: "" }, { option: true }]
-// });
 
 export const test = base.extend<PageFixture>({
     userLogin: [{ username: "", password: "" }, { option: true }],
