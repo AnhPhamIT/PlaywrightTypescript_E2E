@@ -65,16 +65,13 @@ export default defineConfig<PageFixture & ChromaticConfig>({
             name: "api",
             testMatch: "/tests/api/*"
         },
-        // {
-        //     name: "chromium",
-        //     testIgnore: "/tests/api/*",
-        //     use: {
-        //         ...devices["Desktop Chromium"],
-        //         // userLogin: { username: process.env.USER_NAME, password: process.env.PASSWORD }
-        //     }
-
-        //     // fullyParallel: true,
-        // },
+        {
+            name: "chromium",
+            testIgnore: "/tests/api/*",
+            use: {
+                ...devices["Desktop Chromium"]
+            }
+        },
         {
             name: "firefox",
             testIgnore: "/tests/api/*",
