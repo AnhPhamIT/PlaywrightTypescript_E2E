@@ -29,11 +29,13 @@ export class Checkout extends BasePage {
     }
 
     getSelectedProduct(name: any) {
-        let normalizeName = name.replace('"', "");
-        return this.page.locator("div#checkout-cart tr:has-text('" + normalizeName + "')");
+        // let normalizeName = name.replace('"', "");
+        // return this.page.locator("div#checkout-cart tr:has-text('" + normalizeName + "')");
+        return this.page.getByRole("row").filter({ hasText: name }).nth(1);
     }
 
     async validateCheckoutItem(productInfo: Product) {
+        // await this.page.waitForURL("**/index.php?route=checkout/cart");
         console.log(`Product Info ${JSON.stringify(productInfo)}`);
         const productRow = this.getSelectedProduct(productInfo.name);
         const actualQuantity = await productRow.locator("input").inputValue();

@@ -30,7 +30,7 @@ export class ProductDetails extends BasePage {
         return this.page.locator('(//select[@class="custom-select"])[1]/option');
     }
     get size_ddl() {
-        return this.page.locator('(//select[@class="custom-select"])[1]');
+        return this.page.getByRole("combobox").first();
     }
 
     get quantityInput() {
@@ -40,26 +40,25 @@ export class ProductDetails extends BasePage {
     }
 
     async randomSizeIdx() {
-        const sizeOptions = this.size_options.all();
-        return CommonUtils.randomIndex((await sizeOptions).length);
+        const options = this.page.locator("(//select[@class='custom-select'])[1]/option");
+        const optionCount = await options.count();
+        let index = -1;
+        do {
+            index = CommonUtils.randomIndex(optionCount);
+        } while (index <= 0);
+        return index;
     }
-
     async inputOrderDetails(quantity: number) {
-        let selectedOptions: any;
+        await this.page.waitForURL("**/index.php?route=product/**");
+        let selectedOptions = "";
+        if (await this.page.getByRole("combobox").nth(0).isVisible()) {
+            let sizeIdx = await this.randomSizeIdx();
+            await this.page.getByRole("combobox").nth(0).selectOption({ index: sizeIdx });
+            selectedOptions = (await this.size_options.nth(sizeIdx).allInnerTexts())[0];
+        }
+
         let itemName = await this.name.textContent();
         await this.quantityInput.fill(quantity.toString());
-        if (await this.size_ddl.isVisible()) {
-            let sizeIdx = await this.randomSizeIdx();
-            console.log("Selecting Size " + sizeIdx + 1);
-            if (await this.size_ddl.isEnabled()) {
-                await this.size_ddl.selectOption({ index: sizeIdx });
-                selectedOptions = await this.size_options.nth(sizeIdx).allInnerTexts();
-            } else {
-                console.log("Retry on selecting Size");
-                await this.size_ddl.selectOption({ index: sizeIdx });
-                selectedOptions = await this.size_options.nth(sizeIdx).allInnerTexts();
-            }
-        }
         await this.price.click({ delay: 1000 });
         let price = 0;
         price = await this.price.textContent().then((p) => {

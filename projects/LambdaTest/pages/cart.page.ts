@@ -7,8 +7,7 @@ export class Cart extends BasePage {
         super(page);
     }
     getSelectedProduct(name: any) {
-        let normalizeName = name.replace('"', "");
-        return this.page.locator("div#checkout-cart tr:has-text('" + normalizeName + "')");
+        return this.page.getByRole("row").filter({ hasText: name }).nth(1);
     }
 
     async validateShoppingCart(productInfo: Product) {

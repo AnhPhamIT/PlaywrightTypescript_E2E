@@ -15,14 +15,15 @@ test.describe("Checkout flow", async () => {
             await app.topbarPage.goToHomePage();
         });
         await test.step("STEP 2: Select the a product of Collection section", async () => {
-            await app.homePage.selectAProductByIndex("Top Products", 2);
+            await app.homePage.selectAProductByIndex("Top Collection", 0);
         });
         await test.step("STEP 3: On product details, select quantity and Buy Now", async () => {
-            productInfo = await app.productDetailsPage.inputOrderDetails(1);
+            productInfo = await app.productDetailsPage.inputOrderDetails(2);
             await app.productDetailsPage.selectBuyNow();
         });
         await test.step("STEP 4.1: On checkout page, validate product information", async () => {
             await app.checkoutPage.validateCheckoutItem(productInfo);
+            // await app.cart.validateShoppingCart(productInfo);
         });
         await test.step("STEP 4.2: Fill in customer information", async () => {
             await app.checkoutPage.inputBillingAddressAndContinue(userDetails);

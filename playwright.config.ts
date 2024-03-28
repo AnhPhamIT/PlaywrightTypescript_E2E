@@ -52,7 +52,7 @@ export default defineConfig<PageFixture & ChromaticConfig>({
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "retain-on-failure",
         launchOptions: {
-            slowMo: 500
+            // slowMo: 500
         },
         disableAutoSnapshot: true
     },
