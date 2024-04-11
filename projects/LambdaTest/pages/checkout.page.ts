@@ -8,6 +8,7 @@ export class Checkout extends BasePage {
         super(page);
     }
     get billingAddressForm() {
+        // return this.page.locator("div#payment-new, div#payment-address");
         return this.page.locator("div#payment-new");
     }
     get agreeChbox() {
@@ -16,12 +17,16 @@ export class Checkout extends BasePage {
     get continueBtn() {
         return this.page.locator("button#button-save");
     }
-    get guestRadio() {
-        return this.page.locator('label[for="input-account-guest"]');
+
+    get loginBtn() {
+        return this.page.getByRole("button", { name: "Login" });
     }
 
-    async waitForCheckoutPage() {
-        await this.waitForPageFullyLoaded("**/index.php?route=checkout/cart");
+    billingAddress(type: string) {
+        return this.page.locator(`this.page.locator("label[for='input-payment-address-${type}']")`);
+    }
+    checkoutAs(name: string) {
+        return this.page.getByText(name);
     }
 
     async userInputField(field: any) {
@@ -48,21 +53,22 @@ export class Checkout extends BasePage {
         expect(quantityPrice).toContain(calPrice.toString());
     }
 
-    async addGuestInfo(userDetails: User) {
-        await this.guestRadio.click();
+    async addYourPersonalDetails(userDetails: User, isGuest?: boolean) {
         await (await this.userInputField("input-payment-firstname")).fill(userDetails.firstName);
         await (await this.userInputField("input-payment-lastname")).fill(userDetails.lastName);
         await (await this.userInputField("input-payment-email")).fill(userDetails.email);
         await (await this.userInputField("input-payment-telephone")).fill(userDetails.phoneNumber);
-        await (await this.userInputField("input-payment-company")).fill(userDetails.company);
-        await (await this.userInputField("input-payment-address-1")).fill(userDetails.address01);
-        await (await this.userInputField("input-payment-address-2")).fill(userDetails.address02);
-        await (await this.userInputField("input-payment-city")).fill(userDetails.city);
-        await (await this.userInputField("input-payment-postcode")).fill(userDetails.postcode);
+        if (!isGuest) {
+            await (await this.userInputField("input-payment-company")).fill(userDetails.company);
+            await (await this.userInputField("input-payment-address-1")).fill(userDetails.address01);
+            await (await this.userInputField("input-payment-address-2")).fill(userDetails.address02);
+            await (await this.userInputField("input-payment-city")).fill(userDetails.city);
+            await (await this.userInputField("input-payment-postcode")).fill(userDetails.postcode);
 
-        // common function for selectOption
-        await this.page.selectOption("#input-payment-country", userDetails.country);
-        await this.page.selectOption("#input-payment-zone", userDetails.zone);
+            // common function for selectOption
+            await this.page.selectOption("#input-payment-country", userDetails.country);
+            await this.page.selectOption("#input-payment-zone", userDetails.zone);
+        }
     }
 
     async addBillingAddress(userDetails: User) {
@@ -75,12 +81,44 @@ export class Checkout extends BasePage {
         await (await this.userInputField("input-payment-postcode")).fill(userDetails.postcode);
     }
 
-    async inputBillingAddressAndContinue(userDetails: User) {
-        if (await this.billingAddressForm.isVisible()) {
-            await this.addBillingAddress(userDetails);
-        }
+    async continueCheckout() {
         await this.agreeChbox.click();
         await this.continueBtn.click();
         await this.page.waitForURL("**/checkout/confirm");
+    }
+    async login(userDetails: User) {
+        await (await this.userInputField("input-login-email")).fill(userDetails.email);
+        await (await this.userInputField("input-login-password")).fill(userDetails.password);
+        await this.loginBtn.click();
+    }
+    async checkout(userDetails: User) {
+        await this.waitForPageFullyLoaded("checkout/checkout");
+        if (await this.billingAddressForm.isVisible()) {
+            await this.addBillingAddress(userDetails);
+        }
+        await this.continueCheckout();
+    }
+
+    async checkoutAsLoginAccount(userDetails: User) {
+        await this.waitForPageFullyLoaded("checkout/checkout");
+        await this.checkoutAs("Login").click();
+        await this.login(userDetails);
+        await this.billingAddress("existing").click();
+        await this.continueCheckout();
+    }
+    async checkoutAsRegisterAccount(userDetails: User) {
+        await this.waitForPageFullyLoaded("checkout/checkout");
+        await this.checkoutAs("Register Account").click();
+        await this.addYourPersonalDetails(userDetails);
+        await this.addBillingAddress(userDetails);
+        await this.continueCheckout();
+    }
+
+    async checkoutAsGuest(userDetails: User) {
+        await this.waitForPageFullyLoaded("checkout/checkout");
+        await this.checkoutAs("Guest Checkout").click();
+        await this.addYourPersonalDetails(userDetails, true);
+        await this.addBillingAddress(userDetails);
+        await this.continueCheckout();
     }
 }

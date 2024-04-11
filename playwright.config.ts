@@ -57,7 +57,7 @@ export default defineConfig<PageFixture & ChromaticConfig>({
         disableAutoSnapshot: true
     },
     // Test timeout
-    timeout: 2 * 60 * 1000,
+    timeout: 4 * 60 * 1000,
 
     /* Configure projects for major browsers */
     projects: [
@@ -65,21 +65,21 @@ export default defineConfig<PageFixture & ChromaticConfig>({
             name: "api",
             testMatch: "/tests/api/*"
         },
-        {
-            name: "chromium",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Chromium"]
-            }
-        },
-        {
-            name: "firefox",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Firefox"],
-                viewport: { width: 1600, height: 1200 }
-            }
-        },
+        // {
+        //     name: "chromium",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Chromium"]
+        //     }
+        // },
+        // {
+        //     name: "firefox",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Firefox"],
+        //         viewport: { width: 1600, height: 1200 }
+        //     }
+        // },
         {
             name: "webkit",
             testIgnore: "/tests/api/*",

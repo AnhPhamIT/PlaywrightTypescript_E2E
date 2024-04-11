@@ -18,9 +18,7 @@ export class TopBar extends BasePage {
         const searchBtn = this.page.locator('button[type="submit"]');
         return this.isMobile ? searchBtn.nth(1) : searchBtn.nth(0);
     }
-    get cart_btn() {
-        return this.page.locator(".cart-icon").first();
-    }
+
     get searchResults() {
         return this.page.locator("li.product-thumb");
     }
@@ -29,6 +27,9 @@ export class TopBar extends BasePage {
         return this.isMobile
             ? this.page.locator("i.icon.fas.fa-user-cog")
             : this.page.locator("i.icon.fas.fa-user");
+    }
+    get shopByCaterory() {
+        return this.page.getByRole("button", { name: "Shop by Category" });
     }
     subMenu(name: string) {
         return this.isMobile
@@ -65,7 +66,9 @@ export class TopBar extends BasePage {
         await this.search_btn.click();
     }
 
-    async goToCart() {
-        await this.cart_btn.click();
+    async selectCategory(name: string) {
+        await this.shopByCaterory.click();
+        await this.page.locator(`li.nav-item`).filter({ hasText: name }).first().click();
+        await this.waitForPageFullyLoaded("product/category**");
     }
 }

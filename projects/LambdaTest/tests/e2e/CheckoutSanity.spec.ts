@@ -15,7 +15,7 @@ test.describe("Checkout flow", async () => {
             await app.topbarPage.goToHomePage();
         });
         await test.step("STEP 2: Select the a product of Collection section", async () => {
-            await app.homePage.selectAProductByIndex("Top Collection", 0);
+            await app.itemComponent.gotoProductDetails(0, "Top Collection");
         });
         await test.step("STEP 3: On product details, select quantity and Buy Now", async () => {
             productInfo = await app.productDetailsPage.inputOrderDetails(2);
@@ -23,10 +23,9 @@ test.describe("Checkout flow", async () => {
         });
         await test.step("STEP 4.1: On checkout page, validate product information", async () => {
             await app.checkoutPage.validateCheckoutItem(productInfo);
-            // await app.cart.validateShoppingCart(productInfo);
         });
         await test.step("STEP 4.2: Fill in customer information", async () => {
-            await app.checkoutPage.inputBillingAddressAndContinue(userDetails);
+            await app.checkoutPage.checkout(userDetails);
         });
         await test.step("STEP 5: confirm the order and recieve Order Success", async () => {
             await app.confirmOrderPage.confirmOrder(productInfo);
@@ -45,7 +44,7 @@ test.describe("Checkout flow", async () => {
             await app.topbarPage.goToHomePage();
         });
         await test.step("On Home page, select a product from Collection section", async () => {
-            await app.homePage.selectAProductByIndex("Top Products", 2);
+            await app.itemComponent.gotoProductDetails(2, "Top Products");
         });
         await test.step("On product details, input order details and Buy Now", async () => {
             productInfo = await app.productDetailsPage.inputOrderDetails(1);
@@ -55,11 +54,60 @@ test.describe("Checkout flow", async () => {
             await app.checkoutPage.validateCheckoutItem(productInfo);
         });
         await test.step("On Checkout page, Fill in shipping/ billing address and continue", async () => {
-            await app.checkoutPage.inputBillingAddressAndContinue(userDetails);
+            await app.checkoutPage.checkout(userDetails);
         });
         await test.step("On Confirm Order page, confirm the order and recieve Order Success", async () => {
-            await app.confirmOrderPage.confirmOrder(new Product("iMac", 170, 2));
-            // await app.confirmOrderPage.confirmOrder(productInfo);
+            // await app.confirmOrderPage.confirmOrder(new Product("iMac", 170, 2));
+            await app.confirmOrderPage.confirmOrder(productInfo);
+        });
+    });
+
+    test("Should able to checkout multiple products as Guest user", async ({ app }) => {
+        let userDetails = new User();
+        let orders = [
+            { sectionName: "Top Collection", index: 0 },
+            { sectionName: "Top Products", index: 2 }
+        ];
+        let products: Product[];
+
+        await test.step("On Home page, add multiple products to shopping cart", async () => {
+            products = await app.homePage.addProductsToCart(orders);
+        });
+        await test.step("View shopping cart", async () => {
+            await app.shoppingPage.gotoCart();
+        });
+        await test.step("On cart page, validate order details", async () => {
+            await app.cartPage.validateListProduct(products);
+            await app.cartPage.gotoCheckout();
+        });
+        await test.step("On Checkout page, checkout as guest and continue", async () => {
+            await app.checkoutPage.checkoutAsGuest(userDetails);
+        });
+    });
+
+    test("Should able to checkout multiple products by category", async ({ app }) => {
+        let userDetails = new User();
+        let orders = [
+            { sectionName: "", index: 0 },
+            { sectionName: "", index: 3 }
+        ];
+        let products: Product[];
+        await test.step("On Home page, select a category", async () => {
+            products = await app.topbarPage.selectCategory("Cameras");
+        });
+
+        await test.step("On Home page, add multiple products to shopping cart", async () => {
+            products = await app.categoryPage.addProductsToCart(orders);
+        });
+        await test.step("View shopping cart", async () => {
+            await app.shoppingPage.gotoCart();
+        });
+        await test.step("On cart page, validate order details", async () => {
+            await app.cartPage.validateListProduct(products);
+            await app.cartPage.gotoCheckout();
+        });
+        await test.step("On Checkout page, checkout as guest and continue", async () => {
+            await app.checkoutPage.checkoutAsGuest(userDetails);
         });
     });
 });

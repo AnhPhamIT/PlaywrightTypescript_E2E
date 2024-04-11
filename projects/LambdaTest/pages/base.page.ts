@@ -18,7 +18,12 @@ export class BasePage {
     }
 
     actionOnNotification(action: string) {
-        return this.page.locator('//a[contains(.,"' + action + '")]');
+        // a[contains(text(),'View Cart')]
+        return this.page.locator(`//a[contains(text(),'${action}')]`);
+    }
+
+    get notificationExit() {
+        return this.notificationBox.locator("button");
     }
     get toastMsg() {
         return this.page.locator("div.toast-body");
@@ -33,12 +38,17 @@ export class BasePage {
         await this.resultContinue_btn.click();
     }
 
-    async waitForPageFullyLoaded(url: string) {
-        await this.page.waitForURL(url);
+    async waitForPageFullyLoaded(path: string) {
+        //checkout/checkout
+        await this.page.waitForURL(`**/index.php?route=${path}`);
     }
 
     async selectActionOnNotification(name: string) {
         await this.toastMsg.waitFor();
-        await this.actionOnNotification(name).nth(1).click();
+        await this.actionOnNotification(name).first().click();
+    }
+
+    async closeNotification() {
+        await this.notificationExit.click();
     }
 }
