@@ -16,13 +16,9 @@ export default class CommonUtils {
 
     static getTestData(fileName: string) {
         let name = fileName.replace(".spec.ts", ".csv");
-        const filePath = `projects\\LambdaTest\\testdata\\${name}`;
-        console.log(`------------- ${filePath}`);
-        const z = parse(fs.readFileSync(`projects/LambdaTest/testdata/${name}`), {
+        return parse(fs.readFileSync(`projects/LambdaTest/testdata/${name}`), {
             columns: true,
             skip_empty_lines: true
         });
-        console.log("KHDSA", z);
-        return z;
     }
 }
