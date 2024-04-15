@@ -40,8 +40,9 @@ jobs:
                   HOME: /root
               run: |
                   pwd
-                  cd Playwright_LamdaTest/Playwright_LamdaTest/testdata
                   ls
+                  cd Playwright_LamdaTest/Playwright_LamdaTest/testdata
+                  ls -a
                   npx playwright test --grep='@ddt' --project='webkit'
             - uses: actions/upload-artifact@v4
               if: always()
