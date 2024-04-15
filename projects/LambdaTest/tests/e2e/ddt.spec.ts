@@ -8,9 +8,9 @@ test.beforeEach(async ({ app }) => {
     await app.basePage.open();
 });
 var filename = path.basename(__filename);
-console.log("xxxx", filename);
+console.log("xxxx", typeof filename);
 //https://stackoverflow.com/questions/76985740/looping-through-csv-records-in-playwright-typescript-test-using-fixtures
-const records = CommonUtils.getTestData(filename.toString());
+const records = CommonUtils.getTestData(filename);
 test.describe.configure({ mode: "serial" });
 for (const record of records) {
     test(`@ddt Should able to search then checkout product ${record.name}`, async ({ app }, testInfo) => {
