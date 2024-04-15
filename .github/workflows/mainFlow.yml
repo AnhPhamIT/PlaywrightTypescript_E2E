@@ -41,9 +41,7 @@ jobs:
               run: |
                   pwd
                   ls -a
-                  cd projects/LambdaTest/testdata
-                  ls -a
-                  npx playwright test --grep='@ddt' --project='webkit'
+                  npx playwright test --grep='@ddt' --project='chromium'
             - uses: actions/upload-artifact@v4
               if: always()
               with:
