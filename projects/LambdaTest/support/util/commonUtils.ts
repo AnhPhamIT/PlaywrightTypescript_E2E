@@ -1,5 +1,4 @@
 import * as fs from "fs";
-import { parse } from "csv-parse/sync";
 
 export default class CommonUtils {
     static splitValue(value: any, index: any): any {
@@ -14,11 +13,11 @@ export default class CommonUtils {
         return Math.floor(Math.random() * arrLength);
     }
 
-    static getTestData(fileName: string) {
-        let name = fileName.replace(".spec.ts", ".csv");
-        return parse(fs.readFileSync(`projects/LambdaTest/testdata/${name}`), {
-            columns: true,
-            skip_empty_lines: true
-        });
-    }
+    // static getTestData(fileName: string) {
+    //     let name = fileName.replace(".spec.ts", ".csv");
+    //     return parse(fs.readFileSync(`projects/LambdaTest/testdata/${name}`), {
+    //         columns: true,
+    //         skip_empty_lines: true
+    //     });
+    // }
 }

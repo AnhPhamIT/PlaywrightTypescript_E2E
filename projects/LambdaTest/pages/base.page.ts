@@ -1,7 +1,7 @@
 //Idea: place to store any global actions which are not isolated to a single component or page
 import { Page, expect } from "@playwright/test";
 
-export class BasePage {
+export abstract class BasePage {
     readonly page: Page;
 
     constructor(page: Page) {

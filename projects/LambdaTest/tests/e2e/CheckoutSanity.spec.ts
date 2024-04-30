@@ -1,17 +1,18 @@
+import { Faker } from "@faker-js/faker";
 import { test } from "../../fixtures/page.fixture";
 import Product from "../../model/product.model";
-import User from "../../model/user.model";
+import { User, IUser } from "../../model/user.model";
 
 test.describe("Checkout flow", async () => {
     test.beforeEach(async ({ app }) => {
-        await app.basePage.open();
+        await app.homePage.open();
     });
 
-    test("Should able to checkout a product with new registered user", async ({ app }) => {
+    test("@mytest Should able to checkout a product with new registered user", async ({ app }) => {
         let productInfo: Product;
-        let userDetails = new User();
+        // let userDetails = new User();
         await test.step("STEP 1: Register new account", async () => {
-            await app.registerPage.registerAccount(userDetails);
+            await app.registerPage.registerAccount(User);
             await app.topbarPage.goToHomePage();
         });
         await test.step("STEP 2: Select the a product of Collection section", async () => {
@@ -25,7 +26,7 @@ test.describe("Checkout flow", async () => {
             await app.checkoutPage.validateCheckoutItem(productInfo);
         });
         await test.step("STEP 4.2: Fill in customer information", async () => {
-            await app.checkoutPage.checkout(userDetails);
+            await app.checkoutPage.checkout(User);
         });
         await test.step("STEP 5: confirm the order and recieve Order Success", async () => {
             await app.confirmOrderPage.confirmOrder(productInfo);
@@ -34,13 +35,13 @@ test.describe("Checkout flow", async () => {
 
     test("Should able to checkout product as returning user", async ({ app, api }) => {
         let productInfo: Product;
-        let userDetails = new User();
+        // let userDetails = new User();
         await test.step("Create account", async () => {
-            await api.registerAccount(userDetails);
+            await api.registerAccount(User);
             await api.logOut();
         });
         await test.step("Login with existing account", async () => {
-            await app.loginPage.login(userDetails.email, userDetails.password);
+            await app.loginPage.login(User.email, User.password);
             await app.topbarPage.goToHomePage();
         });
         await test.step("On Home page, select a product from Collection section", async () => {
@@ -54,7 +55,7 @@ test.describe("Checkout flow", async () => {
             await app.checkoutPage.validateCheckoutItem(productInfo);
         });
         await test.step("On Checkout page, Fill in shipping/ billing address and continue", async () => {
-            await app.checkoutPage.checkout(userDetails);
+            await app.checkoutPage.checkout(User);
         });
         await test.step("On Confirm Order page, confirm the order and recieve Order Success", async () => {
             // await app.confirmOrderPage.confirmOrder(new Product("iMac", 170, 2));
@@ -63,7 +64,7 @@ test.describe("Checkout flow", async () => {
     });
 
     test("Should able to checkout multiple products as Guest user", async ({ app }) => {
-        let userDetails = new User();
+        // let userDetails = new User();
         let orders = [
             { sectionName: "Top Collection", index: 0 },
             { sectionName: "Top Products", index: 2 }
@@ -81,12 +82,12 @@ test.describe("Checkout flow", async () => {
             await app.cartPage.gotoCheckout();
         });
         await test.step("On Checkout page, checkout as guest and continue", async () => {
-            await app.checkoutPage.checkoutAsGuest(userDetails);
+            await app.checkoutPage.checkoutAsGuest(User);
         });
     });
 
     test("Should able to checkout multiple products by category", async ({ app }) => {
-        let userDetails = new User();
+        // let userDetails = new User();
         let orders = [
             { sectionName: "", index: 0 },
             { sectionName: "", index: 3 }
@@ -107,7 +108,7 @@ test.describe("Checkout flow", async () => {
             await app.cartPage.gotoCheckout();
         });
         await test.step("On Checkout page, checkout as guest and continue", async () => {
-            await app.checkoutPage.checkoutAsGuest(userDetails);
+            await app.checkoutPage.checkoutAsGuest(User);
         });
     });
 });

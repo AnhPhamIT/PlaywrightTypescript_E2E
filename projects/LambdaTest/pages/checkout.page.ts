@@ -1,6 +1,6 @@
 import { Page, expect } from "@playwright/test";
 import { BasePage } from "./base.page";
-import User from "../model/user.model";
+import { IUser, User } from "../model/user.model";
 import Product from "../model/product.model";
 
 export class Checkout extends BasePage {
@@ -53,7 +53,7 @@ export class Checkout extends BasePage {
         expect(quantityPrice).toContain(calPrice.toString());
     }
 
-    async addYourPersonalDetails(userDetails: User, isGuest?: boolean) {
+    async addYourPersonalDetails(userDetails: IUser, isGuest?: boolean) {
         await (await this.userInputField("input-payment-firstname")).fill(userDetails.firstName);
         await (await this.userInputField("input-payment-lastname")).fill(userDetails.lastName);
         await (await this.userInputField("input-payment-email")).fill(userDetails.email);
@@ -71,7 +71,7 @@ export class Checkout extends BasePage {
         }
     }
 
-    async addBillingAddress(userDetails: User) {
+    async addBillingAddress(userDetails: IUser) {
         await (await this.userInputField("input-payment-firstname")).fill(userDetails.firstName);
         await (await this.userInputField("input-payment-lastname")).fill(userDetails.lastName);
         await (await this.userInputField("input-payment-company")).fill(userDetails.company);
@@ -86,12 +86,12 @@ export class Checkout extends BasePage {
         await this.continueBtn.click();
         await this.page.waitForURL("**/checkout/confirm");
     }
-    async login(userDetails: User) {
+    async login(userDetails: IUser) {
         await (await this.userInputField("input-login-email")).fill(userDetails.email);
         await (await this.userInputField("input-login-password")).fill(userDetails.password);
         await this.loginBtn.click();
     }
-    async checkout(userDetails: User) {
+    async checkout(userDetails: IUser) {
         await this.waitForPageFullyLoaded("checkout/checkout");
         if (await this.billingAddressForm.isVisible()) {
             await this.addBillingAddress(userDetails);
@@ -99,14 +99,14 @@ export class Checkout extends BasePage {
         await this.continueCheckout();
     }
 
-    async checkoutAsLoginAccount(userDetails: User) {
+    async checkoutAsLoginAccount(userDetails: IUser) {
         await this.waitForPageFullyLoaded("checkout/checkout");
         await this.checkoutAs("Login").click();
         await this.login(userDetails);
         await this.billingAddress("existing").click();
         await this.continueCheckout();
     }
-    async checkoutAsRegisterAccount(userDetails: User) {
+    async checkoutAsRegisterAccount(userDetails: IUser) {
         await this.waitForPageFullyLoaded("checkout/checkout");
         await this.checkoutAs("Register Account").click();
         await this.addYourPersonalDetails(userDetails);
@@ -114,7 +114,7 @@ export class Checkout extends BasePage {
         await this.continueCheckout();
     }
 
-    async checkoutAsGuest(userDetails: User) {
+    async checkoutAsGuest(userDetails: IUser) {
         await this.waitForPageFullyLoaded("checkout/checkout");
         await this.checkoutAs("Guest Checkout").click();
         await this.addYourPersonalDetails(userDetails, true);

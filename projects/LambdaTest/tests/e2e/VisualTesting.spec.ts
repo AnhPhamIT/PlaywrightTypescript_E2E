@@ -4,7 +4,7 @@ import Product from "../../model/product.model";
 import { takeSnapshot } from "@chromatic-com/playwright";
 
 test.beforeEach(async ({ app }) => {
-    await app.basePage.open();
+    await app.homePage.open();
 });
 
 test("@only Should able to search then checkout a product", async ({ app }, testInfo) => {
@@ -14,6 +14,6 @@ test("@only Should able to search then checkout a product", async ({ app }, test
     // await takeSnapshot(app.page, testInfo);
     // await app.filterComponent.filterBy("In stock");
     productInfo = await app.itemComponent.addProductToCart(1);
-    await app.basePage.selectActionOnNotification("Checkout");
+    await app.homePage.selectActionOnNotification("Checkout");
     await app.checkoutPage.validateCheckoutItem(productInfo);
 });

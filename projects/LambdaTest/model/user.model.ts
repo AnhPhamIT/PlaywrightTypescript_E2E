@@ -1,32 +1,34 @@
 import { faker } from "@faker-js/faker";
-export default class User {
+export type IUser = {
     //--- Personal Details
-    public firstName: any;
-    public lastName: any;
-    public email: any;
-    public phoneNumber: any;
-    public password: any;
+    firstName: string;
+    lastName: any;
+    email: any;
+    phoneNumber: any;
+    password: any;
     //--- Billing Address
-    public company: any;
-    public address01: any;
-    public address02: any;
-    public city: any;
-    public postcode: any;
-    public country: any;
-    public zone: any;
+    company: any;
+    address01: any;
+    address02: any;
+    city: any;
+    postcode: any;
+    country: any;
+    zone: any;
+};
 
-    constructor() {
-        this.firstName = faker.person.firstName();
-        this.lastName = faker.person.lastName();
-        this.email = faker.internet.email();
-        this.phoneNumber = faker.phone.number();
-        this.company = faker.company.name();
-        this.address01 = faker.location.streetAddress();
-        this.address02 = faker.location.secondaryAddress();
-        this.city = faker.location.city();
-        this.postcode = faker.location.zipCode();
-        this.country = "Australia";
-        this.zone = "Tasmania";
-        this.password = "password";
-    }
+//Anh Pham
+class _User implements IUser {
+    firstName = faker.person.firstName();
+    lastName = faker.person.lastName();
+    email = faker.internet.email();
+    phoneNumber = faker.phone.number();
+    company = faker.company.name();
+    address01 = faker.location.streetAddress();
+    address02 = faker.location.secondaryAddress();
+    city = faker.location.city();
+    postcode = faker.location.zipCode();
+    country = "Australia";
+    zone = "Tasmania";
+    password = "password";
 }
+export const User = new _User();

@@ -34,7 +34,7 @@ export class App {
     private readonly _page;
 
     constructor(page: Page, isMobile: boolean, testInfo: TestInfo) {
-        this._base = new BasePage(page);
+        // this._base = new BasePage(page);
         this._checkout = new Checkout(page);
         this._confirmOrder = new ConfirmOrder(page);
         this._home = new Home(page, isMobile);

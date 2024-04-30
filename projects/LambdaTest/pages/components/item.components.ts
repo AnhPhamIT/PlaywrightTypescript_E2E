@@ -31,7 +31,7 @@ export class ItemComponent extends BasePage {
         await selectedProduct.click();
     }
 
-    async addProductToCart(index: number, sectionName?: string) {
+    async addProductToCart(index: number, sectionName?: string): Promise<Product> {
         const selectedProduct = this.getProduct(index, sectionName);
         await selectedProduct.waitFor();
         //get product info
@@ -56,8 +56,9 @@ export class ItemComponent extends BasePage {
                 // await this.page.locator('//a[contains(.,"View Cart")]').click()
             ]);
         }
+        let quantity = 1;
 
-        return new Product(name, price, 1);
+        return { name, price, quantity };
     }
 
     // async addProductsToCart(orders): Promise<Product[]> {
