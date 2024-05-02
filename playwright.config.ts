@@ -65,13 +65,13 @@ export default defineConfig<PageFixture & ChromaticConfig>({
             name: "api",
             testMatch: "/tests/api/*"
         },
-        // {
-        //     name: "chromium",
-        //     testIgnore: "/tests/api/*",
-        //     use: {
-        //         ...devices["Desktop Chromium"]
-        //     }
-        // },
+        {
+            name: "chromium",
+            testIgnore: "/tests/api/*",
+            use: {
+                ...devices["Desktop Chromium"]
+            }
+        },
         // {
         //     name: "firefox",
         //     testIgnore: "/tests/api/*",
@@ -80,14 +80,14 @@ export default defineConfig<PageFixture & ChromaticConfig>({
         //         viewport: { width: 1600, height: 1200 }
         //     }
         // },
-        {
-            name: "webkit",
-            testIgnore: "/tests/api/*",
-            use: {
-                ...devices["Desktop Safari"],
-                viewport: { width: 1280, height: 1050 }
-            }
-        },
+        // {
+        //     name: "webkit",
+        //     testIgnore: "/tests/api/*",
+        //     use: {
+        //         ...devices["Desktop Safari"],
+        //         viewport: { width: 1280, height: 1050 }
+        //     }
+        // },
 
         /* Test against mobile viewports. */
         {

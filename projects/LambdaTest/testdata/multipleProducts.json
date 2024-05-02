@@ -1,0 +1,25 @@
+[
+  {
+    "title": "MP3 Players",
+    "products": [
+      1
+    ]
+  },
+  {
+    "title": "Cameras",
+    "products": [
+      1,
+      3,
+      4
+    ]
+  },
+  {
+    "title": "Web Cameras",
+    "products": [
+      1,
+      3,
+      4,
+      6
+    ]
+  }
+]

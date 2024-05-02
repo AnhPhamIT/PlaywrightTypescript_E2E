@@ -48,23 +48,23 @@ export class ProductDetails extends BasePage {
         } while (index <= 0);
         return index;
     }
-    async inputOrderDetails(quantity: number) {
+    async inputOrderDetails(quantity: number): Promise<Product> {
         await this.page.waitForURL("**/index.php?route=product/**");
-        let selectedOptions = "";
+        let size = "";
         if (await this.page.getByRole("combobox").nth(0).isVisible()) {
             let sizeIdx = await this.randomSizeIdx();
             await this.page.getByRole("combobox").nth(0).selectOption({ index: sizeIdx });
-            selectedOptions = (await this.size_options.nth(sizeIdx).allInnerTexts())[0];
+            size = (await this.size_options.nth(sizeIdx).allInnerTexts())[0];
         }
 
-        let itemName = await this.name.textContent();
+        let name = await this.name.textContent();
         await this.quantityInput.fill(quantity.toString());
         await this.price.click({ delay: 1000 });
         let price = 0;
         price = await this.price.textContent().then((p) => {
             return CommonUtils.convertCurrencyToNumber(p);
         });
-        return new Product(itemName, price, quantity, selectedOptions);
+        return { name, price, quantity, size };
     }
 
     async selectBuyNow() {

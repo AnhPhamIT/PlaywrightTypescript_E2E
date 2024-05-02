@@ -13,7 +13,8 @@ test("@only Should able to search then checkout a product", async ({ app }, test
     await app.searchPage.validateProductImageByIndex(1);
     // await takeSnapshot(app.page, testInfo);
     // await app.filterComponent.filterBy("In stock");
-    productInfo = await app.itemComponent.addProductToCart(1);
+    // productInfo = await app.itemComponent.addProductToCart(1);
+    productInfo = await app.productList.addAProductToCart(1);
     await app.homePage.selectActionOnNotification("Checkout");
     await app.checkoutPage.validateCheckoutItem(productInfo);
 });

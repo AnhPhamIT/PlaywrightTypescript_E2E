@@ -24,7 +24,6 @@ export class ConfirmOrder extends BasePage {
 
     async confirmOrder(productInfo: Product) {
         const orderItem = this.orderItem(productInfo.name);
-        // await expect(orderItem.locator('td').nth(1)).toContainText('Product 1')
         await expect(orderItem.locator("td").nth(2)).toContainText(productInfo.quantity.toString());
         await expect(orderItem.locator("td").nth(3)).toContainText(productInfo.price.toString());
         let calPrice = productInfo.price * productInfo.quantity;

@@ -1,6 +1,8 @@
-import { Page, TestInfo } from "@playwright/test";
+import { Locator, Page, TestInfo } from "@playwright/test";
 import { BasePage } from "./base.page";
 import { takeSnapshot } from "@chromatic-com/playwright";
+import { ItemComponent } from "./components/item.components";
+import Product from "../model/product.model";
 
 export class Search extends BasePage {
     testInfo: TestInfo;

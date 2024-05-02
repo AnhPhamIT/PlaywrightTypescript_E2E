@@ -1,5 +1,5 @@
 type Product = {
-    name: string;
+    name: string | null;
     price: number;
     quantity: number;
     size?: string;

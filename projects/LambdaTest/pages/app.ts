@@ -14,6 +14,7 @@ import { Cart } from "./cart.page";
 import { ItemComponent } from "./components/item.components";
 import { CategoryPage } from "./category.page";
 import { FilterComponent } from "./components/filter.components";
+import { ProductList } from "./components/productList.components";
 
 export class App {
     private readonly _base: BasePage;
@@ -31,6 +32,7 @@ export class App {
     private readonly _item: ItemComponent;
     private readonly _category: CategoryPage;
     private readonly _filterComponent: FilterComponent;
+    private readonly _productList: ProductList;
     private readonly _page;
 
     constructor(page: Page, isMobile: boolean, testInfo: TestInfo) {
@@ -49,6 +51,7 @@ export class App {
         this._item = new ItemComponent(page, isMobile);
         this._category = new CategoryPage(page, isMobile);
         this._filterComponent = new FilterComponent(page, isMobile);
+        this._productList = new ProductList(page, isMobile);
         this._page = page;
     }
 
@@ -108,6 +111,10 @@ export class App {
 
     public get filterComponent(): FilterComponent {
         return this._filterComponent;
+    }
+
+    public get productList(): ProductList {
+        return this._productList;
     }
     public get page(): Page {
         return this._page;
