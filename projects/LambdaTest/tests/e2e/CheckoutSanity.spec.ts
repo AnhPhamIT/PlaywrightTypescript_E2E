@@ -2,7 +2,6 @@ import { Faker } from "@faker-js/faker";
 import { test } from "../../fixtures/page.fixture";
 import Product from "../../model/product.model";
 import { User, IUser } from "../../model/user.model";
-import { ShopByCategory } from "../../constants/menuItem";
 
 test.describe("Checkout flow", async () => {
     test.beforeEach(async ({ app }) => {

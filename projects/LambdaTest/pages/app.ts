@@ -29,7 +29,7 @@ export class App {
     private readonly _logout: LogOut;
     private readonly _register: Register;
     private readonly _cart: Cart;
-    private readonly _item: ItemComponent;
+    // private readonly _item: ItemComponent;
     private readonly _category: CategoryPage;
     private readonly _filterComponent: FilterComponent;
     private readonly _productList: ProductList;
@@ -48,7 +48,7 @@ export class App {
         this._logout = new LogOut(page);
         this._register = new Register(page, isMobile);
         this._cart = new Cart(page);
-        this._item = new ItemComponent(page, isMobile);
+        // this._item = new ItemComponent(page, isMobile);
         this._category = new CategoryPage(page, isMobile);
         this._filterComponent = new FilterComponent(page, isMobile);
         this._productList = new ProductList(page, isMobile);
@@ -97,9 +97,9 @@ export class App {
         return this._register;
     }
 
-    public get itemComponent(): ItemComponent {
-        return this._item;
-    }
+    // public get itemComponent(): ItemComponent {
+    //     return this._item;
+    // }
 
     public get cartPage(): Cart {
         return this._cart;

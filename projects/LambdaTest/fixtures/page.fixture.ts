@@ -1,10 +1,10 @@
 // import { test as base } from "@playwright/test";
 import { App } from "../pages/app";
-import { PageFixture } from "../../type";
+import { CustomFixture } from "../../type";
 import { AccountAPI } from "../api/account.api";
 import { test as base } from "@chromatic-com/playwright";
 
-export const test = base.extend<PageFixture>({
+export const test = base.extend<CustomFixture>({
     userLogin: [{ username: "", password: "" }, { option: true }],
     app: async ({ page, isMobile }, use, testInfo) => {
         await use(new App(page, isMobile, testInfo));

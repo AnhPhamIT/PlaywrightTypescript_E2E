@@ -1,7 +1,7 @@
 import { defineConfig, devices } from "@playwright/test";
 import dotenv from "dotenv";
 import { resolve } from "path";
-import { PageFixture } from "./projects/type";
+import { CustomFixture } from "./projects/type";
 import { ChromaticConfig } from "@chromatic-com/playwright";
 
 /**
@@ -18,8 +18,9 @@ dotenv.config();
 // }
 // Read from default ".env" file.
 const projectVar = process.env.PROJECT;
-
-export default defineConfig<PageFixture & ChromaticConfig>({
+const config = process.env.TEST_ENVIRONMENT;
+const env = require(`./config/${config}.env.json`);
+export default defineConfig<CustomFixture & ChromaticConfig>({
     testDir: resolve(__dirname, `projects/${projectVar}/tests`),
     snapshotPathTemplate: "{testDir}/{testFilePath}-snapshots/{arg}-{projectName}{ext}",
     // https://www.linkedin.com/pulse/how-screenshots-naming-works-playwright-change-eugene-truuts-r1atf
@@ -47,7 +48,8 @@ export default defineConfig<PageFixture & ChromaticConfig>({
     /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
     use: {
         /* Base URL to use in actions like `await page.goto('/')`. */
-        baseURL: process.env.BASE_URL,
+        baseURL: process.env.BASE_URL || env.webapp1.baseUrl,
+        apiURL: process.env.API_URL || env.webapp1.apiUrl,
 
         /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
         trace: "retain-on-failure",
@@ -63,7 +65,13 @@ export default defineConfig<PageFixture & ChromaticConfig>({
     projects: [
         {
             name: "api",
-            testMatch: "/tests/api/*"
+            testMatch: "/tests/api/*",
+            use: {
+                userLogin: {
+                    username: env.webapp1.userName,
+                    password: env.webapp1.password
+                }
+            }
         },
         {
             name: "chromium",

@@ -15,8 +15,9 @@ testdata.forEach((data) => {
         let productInfo: Product;
         await app.topbarPage.searchProductByName(data.products);
         await takeSnapshot(app.page, testInfo);
-        // productInfo = await app.itemComponent.addProductToCart(1);
-        productInfo = await app.productList.addAProductToCart(1);
+        let proObj = await app.productList.selectProductByIndex(1);
+        productInfo = await proObj.getItemInfo();
+        await proObj.addToCart();
         await app.homePage.selectActionOnNotification("Checkout");
         await app.checkoutPage.validateCheckoutItem(productInfo);
     });

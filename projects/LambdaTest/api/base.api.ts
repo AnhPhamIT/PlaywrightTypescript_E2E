@@ -1,16 +1,19 @@
 require("dotenv").config();
 const { expect } = require("@playwright/test");
+import playwrightConfig from "../../../playwright.config";
 
 class BaseAPI {
-    private apiURL = process.env.API_URL;
+    //https://playwrightsolutions.com/how-do-you-define-an-apiurl-along-with-the-baseurl-in-playwright/
+    //private apiURL = process.env.API_URL; // get baseURL, apiURL config
     customVariables = {};
     page;
 
     constructor(page) {
         this.page = page;
         page.context({
-            baseURL: this.apiURL
+            baseURL: playwrightConfig.use?.apiURL
         });
+        // console.log("--------- " + playwrightConfig.use?.apiURL);
     }
 
     GET = async (endpoint, { requestParams = {} } = {}) => {

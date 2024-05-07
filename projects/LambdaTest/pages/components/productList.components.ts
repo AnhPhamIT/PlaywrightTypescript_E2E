@@ -19,17 +19,18 @@ export class ProductList extends BasePage {
         await selectedProduct.click();
     }
 
-    async addAProductToCart(index: number): Promise<Product> {
-        let item = new ItemComponent(this.page, this.isMobile);
-        const productLocator = this.getProduct(index);
-        return item.addToCart(productLocator);
+    async selectProductByIndex(index: number) {
+        let selector = this.getProduct(index);
+        return new ItemComponent(this.page, this.isMobile, selector);
     }
 
     async addProductsToCart(orders): Promise<Product[]> {
         let products: Product[] = [];
         for (let item of orders) {
             let product: Product;
-            product = await this.addAProductToCart(item);
+            let itemObj = await this.selectProductByIndex(item);
+            product = await itemObj.getItemInfo();
+            await itemObj.addToCart();
             products.push(product);
         }
         return products;

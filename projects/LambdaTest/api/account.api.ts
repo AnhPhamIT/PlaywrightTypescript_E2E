@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test";
-import User from "../model/user.model";
+import { IUser, User } from "../model/user.model";
 import BaseAPI from "./base.api";
 
 export class AccountAPI extends BaseAPI {
@@ -7,7 +7,7 @@ export class AccountAPI extends BaseAPI {
         super(page);
     }
 
-    async registerAccount(userDetails: User) {
+    async registerAccount(userDetails: IUser) {
         let body = {
             form: {
                 firstname: userDetails.firstName,

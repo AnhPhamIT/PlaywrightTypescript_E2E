@@ -15,7 +15,8 @@ export class ShoppingCart extends BasePage {
     actionOnCart(action: string) {
         return this.page.getByRole("button", { name: action });
     }
-    getProductLs(name: string) {
+    //define params without datatype ?????
+    getProductLs(name) {
         return this.page.locator('table tr:has-text("' + name + '")');
     }
 
@@ -29,7 +30,7 @@ export class ShoppingCart extends BasePage {
     }
 
     async validateProductShoppingCart(product: Product) {
-        const productRow = this.getProductLs(product.name!);
+        const productRow = this.getProductLs(product.name);
         let actualPrice = await productRow.locator("td").nth(3).textContent();
         expect(actualPrice).toContain(product.price.toString());
         let actualQuantity = await productRow.locator("td").nth(2).textContent();
