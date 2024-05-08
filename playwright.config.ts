@@ -59,7 +59,7 @@ export default defineConfig<CustomFixture & ChromaticConfig>({
         disableAutoSnapshot: true
     },
     // Test timeout
-    timeout: 4 * 60 * 1000,
+    timeout: 3 * 60 * 1000,
 
     /* Configure projects for major browsers */
     projects: [

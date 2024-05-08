@@ -4,9 +4,9 @@ import Product from "../../model/product.model";
 import { User, IUser } from "../../model/user.model";
 
 test.describe("Checkout flow", async () => {
-    test.beforeEach(async ({ app }) => {
-        await app.homePage.open();
-    });
+    // test.beforeEach(async ({ app }) => {
+    //     await app.homePage.open();
+    // });
 
     test("@mytest Should able to checkout a product with new registered user", async ({ app }) => {
         let productInfo: Product;

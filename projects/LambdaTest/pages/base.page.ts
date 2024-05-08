@@ -29,9 +29,13 @@ export abstract class BasePage {
         return this.page.locator("div.toast-body");
     }
 
-    async open() {
+    async open(url?: string) {
         console.log("Navigate to our home page");
-        await this.page.goto("/");
+        if (url) {
+            await this.page.goto(url);
+        } else {
+            await this.page.goto("/");
+        }
     }
     async continueOnResultPage(msg: string) {
         await expect(this.resultTitle).toHaveText(msg);

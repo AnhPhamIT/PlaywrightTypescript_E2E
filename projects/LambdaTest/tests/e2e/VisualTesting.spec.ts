@@ -3,11 +3,11 @@ import { test } from "../../fixtures/page.fixture";
 import Product from "../../model/product.model";
 import { takeSnapshot } from "@chromatic-com/playwright";
 
-test.beforeEach(async ({ app }) => {
-    await app.homePage.open();
-});
+// test.beforeEach(async ({ app }) => {
+//     await app.homePage.open();
+// });
 
-test("@only Should able to search then checkout a product", async ({ app }, testInfo) => {
+test("@webApp2 Should able to search then checkout a product", async ({ app }, testInfo) => {
     let productInfo: Product;
     await app.topbarPage.searchProductByName("Nikon D300");
     await app.searchPage.validateProductImageByIndex(1);

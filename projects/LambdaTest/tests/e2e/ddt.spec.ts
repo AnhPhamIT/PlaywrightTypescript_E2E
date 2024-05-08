@@ -5,9 +5,9 @@ import testdata from "../../testdata/ddt.json";
 import multipleProducts from "../../testdata/multipleProducts.json";
 import { User } from "../../model/user.model";
 
-test.beforeEach(async ({ app }) => {
-    await app.homePage.open();
-});
+// test.beforeEach(async ({ app }) => {
+//     await app.homePage.open();
+// });
 
 // test.describe.configure({ mode: "serial" });
 testdata.forEach((data) => {
